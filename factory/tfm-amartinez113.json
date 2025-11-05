@@ -1,0 +1,9 @@
+{
+	"name": "tfm-amartinez113",
+	"location": "spaincentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "edae42ec-e4da-44dc-96fc-08baffe78800",
+		"tenantId": "b5587048-a070-43ad-b654-20a31e9b2d99"
+	}
+}
