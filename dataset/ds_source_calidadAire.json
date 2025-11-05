@@ -1,0 +1,248 @@
+{
+	"name": "ds_source_calidadAire",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "calidadAire",
+				"container": "data"
+			},
+			"columnDelimiter": ";",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "PROVINCIA",
+				"type": "String"
+			},
+			{
+				"name": "MUNICIPIO",
+				"type": "String"
+			},
+			{
+				"name": "ESTACION",
+				"type": "String"
+			},
+			{
+				"name": "MAGNITUD",
+				"type": "String"
+			},
+			{
+				"name": "PUNTO_MUESTREO",
+				"type": "String"
+			},
+			{
+				"name": "ANO",
+				"type": "String"
+			},
+			{
+				"name": "MES",
+				"type": "String"
+			},
+			{
+				"name": "DIA",
+				"type": "String"
+			},
+			{
+				"name": "H01",
+				"type": "String"
+			},
+			{
+				"name": "V01",
+				"type": "String"
+			},
+			{
+				"name": "H02",
+				"type": "String"
+			},
+			{
+				"name": "V02",
+				"type": "String"
+			},
+			{
+				"name": "H03",
+				"type": "String"
+			},
+			{
+				"name": "V03",
+				"type": "String"
+			},
+			{
+				"name": "H04",
+				"type": "String"
+			},
+			{
+				"name": "V04",
+				"type": "String"
+			},
+			{
+				"name": "H05",
+				"type": "String"
+			},
+			{
+				"name": "V05",
+				"type": "String"
+			},
+			{
+				"name": "H06",
+				"type": "String"
+			},
+			{
+				"name": "V06",
+				"type": "String"
+			},
+			{
+				"name": "H07",
+				"type": "String"
+			},
+			{
+				"name": "V07",
+				"type": "String"
+			},
+			{
+				"name": "H08",
+				"type": "String"
+			},
+			{
+				"name": "V08",
+				"type": "String"
+			},
+			{
+				"name": "H09",
+				"type": "String"
+			},
+			{
+				"name": "V09",
+				"type": "String"
+			},
+			{
+				"name": "H10",
+				"type": "String"
+			},
+			{
+				"name": "V10",
+				"type": "String"
+			},
+			{
+				"name": "H11",
+				"type": "String"
+			},
+			{
+				"name": "V11",
+				"type": "String"
+			},
+			{
+				"name": "H12",
+				"type": "String"
+			},
+			{
+				"name": "V12",
+				"type": "String"
+			},
+			{
+				"name": "H13",
+				"type": "String"
+			},
+			{
+				"name": "V13",
+				"type": "String"
+			},
+			{
+				"name": "H14",
+				"type": "String"
+			},
+			{
+				"name": "V14",
+				"type": "String"
+			},
+			{
+				"name": "H15",
+				"type": "String"
+			},
+			{
+				"name": "V15",
+				"type": "String"
+			},
+			{
+				"name": "H16",
+				"type": "String"
+			},
+			{
+				"name": "V16",
+				"type": "String"
+			},
+			{
+				"name": "H17",
+				"type": "String"
+			},
+			{
+				"name": "V17",
+				"type": "String"
+			},
+			{
+				"name": "H18",
+				"type": "String"
+			},
+			{
+				"name": "V18",
+				"type": "String"
+			},
+			{
+				"name": "H19",
+				"type": "String"
+			},
+			{
+				"name": "V19",
+				"type": "String"
+			},
+			{
+				"name": "H20",
+				"type": "String"
+			},
+			{
+				"name": "V20",
+				"type": "String"
+			},
+			{
+				"name": "H21",
+				"type": "String"
+			},
+			{
+				"name": "V21",
+				"type": "String"
+			},
+			{
+				"name": "H22",
+				"type": "String"
+			},
+			{
+				"name": "V22",
+				"type": "String"
+			},
+			{
+				"name": "H23",
+				"type": "String"
+			},
+			{
+				"name": "V23",
+				"type": "String"
+			},
+			{
+				"name": "H24",
+				"type": "String"
+			},
+			{
+				"name": "V24",
+				"type": "String"
+			}
+		]
+	}
+}
