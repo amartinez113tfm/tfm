@@ -1,0 +1,412 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "tfm-amartinez113"
+		},
+		"calidadAire_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"calidadAire\""
+		},
+		"salidaCSV_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"salidaCSV\""
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/calidadAire')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Ficheros con las lecturas anuales de la calidad de aire",
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('calidadAire_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/salidaCSV')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('salidaCSV_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_aire')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "calidadAire",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "calidadAire",
+						"container": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PROVINCIA",
+						"type": "String"
+					},
+					{
+						"name": "MUNICIPIO",
+						"type": "String"
+					},
+					{
+						"name": "ESTACION",
+						"type": "String"
+					},
+					{
+						"name": "MAGNITUD",
+						"type": "String"
+					},
+					{
+						"name": "PUNTO_MUESTREO",
+						"type": "String"
+					},
+					{
+						"name": "ANO",
+						"type": "String"
+					},
+					{
+						"name": "MES",
+						"type": "String"
+					},
+					{
+						"name": "DIA",
+						"type": "String"
+					},
+					{
+						"name": "H01",
+						"type": "String"
+					},
+					{
+						"name": "V01",
+						"type": "String"
+					},
+					{
+						"name": "H02",
+						"type": "String"
+					},
+					{
+						"name": "V02",
+						"type": "String"
+					},
+					{
+						"name": "H03",
+						"type": "String"
+					},
+					{
+						"name": "V03",
+						"type": "String"
+					},
+					{
+						"name": "H04",
+						"type": "String"
+					},
+					{
+						"name": "V04",
+						"type": "String"
+					},
+					{
+						"name": "H05",
+						"type": "String"
+					},
+					{
+						"name": "V05",
+						"type": "String"
+					},
+					{
+						"name": "H06",
+						"type": "String"
+					},
+					{
+						"name": "V06",
+						"type": "String"
+					},
+					{
+						"name": "H07",
+						"type": "String"
+					},
+					{
+						"name": "V07",
+						"type": "String"
+					},
+					{
+						"name": "H08",
+						"type": "String"
+					},
+					{
+						"name": "V08",
+						"type": "String"
+					},
+					{
+						"name": "H09",
+						"type": "String"
+					},
+					{
+						"name": "V09",
+						"type": "String"
+					},
+					{
+						"name": "H10",
+						"type": "String"
+					},
+					{
+						"name": "V10",
+						"type": "String"
+					},
+					{
+						"name": "H11",
+						"type": "String"
+					},
+					{
+						"name": "V11",
+						"type": "String"
+					},
+					{
+						"name": "H12",
+						"type": "String"
+					},
+					{
+						"name": "V12",
+						"type": "String"
+					},
+					{
+						"name": "H13",
+						"type": "String"
+					},
+					{
+						"name": "V13",
+						"type": "String"
+					},
+					{
+						"name": "H14",
+						"type": "String"
+					},
+					{
+						"name": "V14",
+						"type": "String"
+					},
+					{
+						"name": "H15",
+						"type": "String"
+					},
+					{
+						"name": "V15",
+						"type": "String"
+					},
+					{
+						"name": "H16",
+						"type": "String"
+					},
+					{
+						"name": "V16",
+						"type": "String"
+					},
+					{
+						"name": "H17",
+						"type": "String"
+					},
+					{
+						"name": "V17",
+						"type": "String"
+					},
+					{
+						"name": "H18",
+						"type": "String"
+					},
+					{
+						"name": "V18",
+						"type": "String"
+					},
+					{
+						"name": "H19",
+						"type": "String"
+					},
+					{
+						"name": "V19",
+						"type": "String"
+					},
+					{
+						"name": "H20",
+						"type": "String"
+					},
+					{
+						"name": "V20",
+						"type": "String"
+					},
+					{
+						"name": "H21",
+						"type": "String"
+					},
+					{
+						"name": "V21",
+						"type": "String"
+					},
+					{
+						"name": "H22",
+						"type": "String"
+					},
+					{
+						"name": "V22",
+						"type": "String"
+					},
+					{
+						"name": "H23",
+						"type": "String"
+					},
+					{
+						"name": "V23",
+						"type": "String"
+					},
+					{
+						"name": "H24",
+						"type": "String"
+					},
+					{
+						"name": "V24",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/calidadAire')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/salida_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "salidaCSV",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "calidadAire",
+						"container": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/salidaCSV')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipe_aire')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Copia los datos de los archivos csv de la calidad de aire y los transforma",
+				"activities": [
+					{
+						"name": "CopyAire",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "calidadAire",
+									"wildcardFileName": "*.csv",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": "salida.scv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_aire",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "salida_csv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_aire')]",
+				"[concat(variables('factoryId'), '/datasets/salida_csv')]"
+			]
+		}
+	]
+}
