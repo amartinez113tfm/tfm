@@ -1,0 +1,7 @@
+{
+	"name": "pipe_aire",
+	"properties": {
+		"description": "Copia los datos de los archivos csv de la calidad de aire y los transforma",
+		"annotations": []
+	}
+}
