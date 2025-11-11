@@ -1,10 +1,6 @@
 {
 	"name": "CSV",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "tfmBlobStorage",
-			"type": "LinkedServiceReference"
-		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
