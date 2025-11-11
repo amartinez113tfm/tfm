@@ -1,0 +1,13 @@
+{
+	"name": "calidadAire",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Ficheros con las lecturas anuales de la calidad de aire",
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": "DefaultEndpointsProtocol=https;AccountName=amartinez113blob;EndpointSuffix=core.windows.net;",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDVGMkI3NjU4LUU4RjctNDU3NS1CNTZELTIxREE5N0EwMzU5Ql8xYzQzOWEzZi03ZmZiLTRhMTAtYjkyZS01ZGQ2MzUyMWVjY2IiDQp9"
+		}
+	}
+}
