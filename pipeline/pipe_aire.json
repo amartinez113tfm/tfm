@@ -5,6 +5,7 @@
 		"activities": [
 			{
 				"name": "CopyAire",
+				"description": "Recorre todos los archivos que hay en la carpeta data\\calidadAire y copia a aiteTotal.csv",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
