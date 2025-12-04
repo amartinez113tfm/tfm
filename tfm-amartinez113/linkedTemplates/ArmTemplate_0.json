@@ -98,8 +98,8 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "air",
-					"table": "lecturas_hora"
+					"schema": "dbo",
+					"table": "aire_hora"
 				}
 			},
 			"dependsOn": [
