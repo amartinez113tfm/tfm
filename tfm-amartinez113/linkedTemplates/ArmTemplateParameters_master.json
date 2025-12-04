@@ -5,11 +5,23 @@
 		"factoryName": {
 			"value": "tfm-amartinez113"
 		},
+		"AzureSqlDatabase1_password": {
+			"value": ""
+		},
 		"calidadAire_connectionString": {
 			"value": ""
 		},
 		"salidaCSV_connectionString": {
 			"value": ""
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"value": "amartinez113.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"value": "aire"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "amartinez113"
 		},
 		"containerUri": {
 			"value": ""
