@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "lecturas_hora"
+			"table": "aire_hora"
 		}
 	}
 }
