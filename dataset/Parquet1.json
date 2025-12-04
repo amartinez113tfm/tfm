@@ -11,7 +11,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "parquetAireHora.parquet",
+				"fileName": "part-*.parquet",
 				"folderPath": "calidadAire",
 				"container": "data"
 			},
