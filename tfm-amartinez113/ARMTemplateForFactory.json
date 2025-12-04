@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"salidaCSV\""
 		},
+		"parquetArireHora_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"parquetArireHora\""
+		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "amartinez113.database.windows.net"
@@ -108,7 +112,7 @@
 						]
 					},
 					{
-						"name": "graba los datos del csv en base de datos",
+						"name": "graba los datos del csv en un parquet",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
@@ -133,7 +137,44 @@
 								"parameters": {},
 								"datasetParameters": {
 									"source1": {},
-									"sink1": {}
+									"parquet": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "parquetToBBDD",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "graba los datos del csv en un parquet",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "parquetToBBDD",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"tblAireHora": {}
 								}
 							},
 							"staging": {},
@@ -153,7 +194,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_aire')]",
 				"[concat(variables('factoryId'), '/datasets/salida_csv')]",
-				"[concat(variables('factoryId'), '/dataflows/grabaAireHorario')]"
+				"[concat(variables('factoryId'), '/dataflows/grabaAireHorario')]",
+				"[concat(variables('factoryId'), '/dataflows/parquetToBBDD')]"
 			]
 		},
 		{
@@ -527,11 +569,10 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "AzureSqlTable1",
+								"referenceName": "Parquet1",
 								"type": "DatasetReference"
 							},
-							"name": "sink1",
-							"description": "Exportar datos a base de datos aire.air.lectura_horaria"
+							"name": "parquet"
 						}
 					],
 					"transformations": [
@@ -683,20 +724,104 @@
 						"    )) ~> AddUTC",
 						"AddUTC sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     batchSize: 500,",
+						"     format: 'parquet',",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+						"     skipDuplicateMapOutputs: true) ~> parquet"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/salida_csv')]",
+				"[concat(variables('factoryId'), '/datasets/Parquet1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/parquetArireHora')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('parquetArireHora_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Archivo parquet con las lecturas por hora",
+				"linkedServiceName": {
+					"referenceName": "salidaCSV",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "parquetAireHora.parquet",
+						"folderPath": "calidadAire",
+						"container": "data"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/salidaCSV')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/parquetToBBDD')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Graba el fichero parquet con las lecturas horarias a una tabla de la base de datos",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Parquet1",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference"
+							},
+							"name": "tblAireHora"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> tblAireHora"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Parquet1')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
 			]
 		}

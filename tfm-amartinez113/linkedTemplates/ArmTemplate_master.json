@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"salidaCSV\""
 		},
+		"parquetArireHora_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"parquetArireHora\""
+		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "amartinez113.database.windows.net"
@@ -66,6 +70,9 @@
 					},
 					"salidaCSV_connectionString": {
 						"value": "[parameters('salidaCSV_connectionString')]"
+					},
+					"parquetArireHora_connectionString": {
+						"value": "[parameters('parquetArireHora_connectionString')]"
 					},
 					"AzureSqlDatabase1_properties_typeProperties_server": {
 						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_server')]"
