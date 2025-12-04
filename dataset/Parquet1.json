@@ -1,0 +1,22 @@
+{
+	"name": "Parquet1",
+	"properties": {
+		"description": "Archivo parquet con las lecturas por hora",
+		"linkedServiceName": {
+			"referenceName": "salidaCSV",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "parquetAireHora.parquet",
+				"folderPath": "calidadAire",
+				"container": "data"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
