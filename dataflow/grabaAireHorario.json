@@ -15,11 +15,10 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "Parquet1",
 						"type": "DatasetReference"
 					},
-					"name": "sink1",
-					"description": "Exportar datos a base de datos aire.air.lectura_horaria"
+					"name": "parquet"
 				}
 			],
 			"transformations": [
@@ -171,15 +170,9 @@
 				"    )) ~> AddUTC",
 				"AddUTC sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     format: 'table',",
-				"     batchSize: 500,",
+				"     format: 'parquet',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> parquet"
 			]
 		}
 	}
