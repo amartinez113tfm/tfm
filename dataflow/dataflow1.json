@@ -12,7 +12,16 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1",
+					"description": "Exportar datos a base de datos aire.air.lectura_horaria"
+				}
+			],
 			"transformations": [
 				{
 					"name": "unpivot1"
@@ -145,7 +154,32 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"unpivot1 derive(UTCTime = ERROR_FUNCTION('toUTC(__NEW_LINE_R____NEW_LINE_N__  iif(__NEW_LINE_R____NEW_LINE_N__    toInteger(Hora) == 24, // Si la hora es 24...__NEW_LINE_R____NEW_LINE_N__    addHours(__NEW_LINE_R____NEW_LINE_N__      addDays(fechaTotal, 1), // ...suma 1 día a la fecha,__NEW_LINE_R____NEW_LINE_N__      -24 // y la hora es 0 (convierte 24 a 0)__NEW_LINE_R____NEW_LINE_N__    ),__NEW_LINE_R____NEW_LINE_N__    addHours(__NEW_LINE_R____NEW_LINE_N__      fechaTotal, // Si la hora es 01 a 23...__NEW_LINE_R____NEW_LINE_N__      toInteger(Hora) // ...usa la hora directamente__NEW_LINE_R____NEW_LINE_N__    )__NEW_LINE_R____NEW_LINE_N__  ),__NEW_LINE_R____NEW_LINE_N__  __SINGLE_QUOTE__Europe/Madrid__SINGLE_QUOTE____NEW_LINE_R____NEW_LINE_N__)')) ~> AddUTC"
+				"unpivot1 derive(UTCTime = \r",
+				"    toTimestamp(\r",
+				"        iif(\r",
+				"            toInteger(Hora) == 24,\r",
+				"            concat(\r",
+				"                toString(addDays(fechaTotal, 1), 'yyyy-MM-dd'),\r",
+				"                ' 00'\r",
+				"            ),\r",
+				"            concat(\r",
+				"                toString(fechaTotal, 'yyyy-MM-dd'), \r",
+				"                ' ',\r",
+				"                lpad(toString(toInteger(Hora)), 2, '0') \r",
+				"            )\r",
+				"        ),\r",
+				"        'yyyy-MM-dd HH'\r",
+				"    )) ~> AddUTC",
+				"AddUTC sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
