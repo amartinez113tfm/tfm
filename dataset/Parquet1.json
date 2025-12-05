@@ -3,7 +3,7 @@
 	"properties": {
 		"description": "Archivo parquet con las lecturas por hora",
 		"linkedServiceName": {
-			"referenceName": "salidaCSV",
+			"referenceName": "calidadAire",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
