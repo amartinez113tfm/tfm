@@ -7,7 +7,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "Parquet1",
+						"referenceName": "ParquetAire",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
@@ -24,7 +24,18 @@
 			],
 			"transformations": [],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          fechaTotal as date,",
+				"          PROVINCIA as short,",
+				"          MUNICIPIO as short,",
+				"          ESTACION as short,",
+				"          PUNTO_MUESTREO as string,",
+				"          MAGNITUD as short,",
+				"          Hora as string,",
+				"          Medida as double,",
+				"          UTCTime as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",

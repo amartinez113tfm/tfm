@@ -1,0 +1,57 @@
+{
+	"name": "ParquetAire",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ConexionParquetAire",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "calidadAire",
+				"container": "data"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "fechaTotal",
+				"type": "DATE"
+			},
+			{
+				"name": "PROVINCIA",
+				"type": "INT_16"
+			},
+			{
+				"name": "MUNICIPIO",
+				"type": "INT_16"
+			},
+			{
+				"name": "ESTACION",
+				"type": "INT_16"
+			},
+			{
+				"name": "PUNTO_MUESTREO",
+				"type": "UTF8"
+			},
+			{
+				"name": "MAGNITUD",
+				"type": "INT_16"
+			},
+			{
+				"name": "Hora",
+				"type": "UTF8"
+			},
+			{
+				"name": "Medida",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "UTCTime",
+				"type": "INT96"
+			}
+		]
+	}
+}
