@@ -11,10 +11,13 @@
 		"calidadAire_connectionString": {
 			"value": ""
 		},
+		"parquetArireHora_connectionString": {
+			"value": ""
+		},
 		"salidaCSV_connectionString": {
 			"value": ""
 		},
-		"parquetArireHora_connectionString": {
+		"ConexionParquetAire_connectionString": {
 			"value": ""
 		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
