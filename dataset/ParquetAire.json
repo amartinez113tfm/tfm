@@ -5,20 +5,12 @@
 			"referenceName": "ConexionParquetAire",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"RutaCarpeta": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@dataset().RutaCarpeta",
-					"type": "Expression"
-				},
+				"fileName": "part-00000-00ccce30-d5f8-44e9-aa0c-67f8f9992c26-c000.snappy.parquet",
 				"folderPath": "calidadAire",
 				"container": "data"
 			},
