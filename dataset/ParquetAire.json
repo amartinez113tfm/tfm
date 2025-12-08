@@ -7,7 +7,8 @@
 		},
 		"parameters": {
 			"NombreArchivoActual": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": " part-00000-00ccce30-d5f8-44e9-aa0c-67f8f9992c26-c000.snappy.parquet"
 			}
 		},
 		"annotations": [],
