@@ -820,8 +820,7 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
-						"     format: 'parquet',",
-						"     wildcardPaths:['part-*.*.parquet']) ~> source1",
+						"     format: 'parquet') ~> source1",
 						"source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     deletable:false,",
@@ -867,6 +866,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": "part-00002-00ccce30-d5f8-44e9-aa0c-67f8f9992c26-c000.snappy.parquet",
 						"folderPath": "calidadAire",
 						"container": "data"
 					},
