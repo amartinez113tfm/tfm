@@ -62,14 +62,8 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ParquetAire",
-									"type": "DatasetReference",
-									"parameters": {
-										"NombreArchivoActual": {
-											"value": "@item().name",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "Parquet2",
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
@@ -104,6 +98,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
