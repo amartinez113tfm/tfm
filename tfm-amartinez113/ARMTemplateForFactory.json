@@ -288,14 +288,9 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "ParquetAire",
+											"referenceName": "Parquet2",
 											"type": "DatasetReference",
-											"parameters": {
-												"NombreArchivoActual": {
-													"value": "@item().name",
-													"type": "Expression"
-												}
-											}
+											"parameters": {}
 										}
 									],
 									"outputs": [
@@ -323,7 +318,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataset": {
-								"referenceName": "Parquet1",
+								"referenceName": "Parquet2",
 								"type": "DatasetReference",
 								"parameters": {}
 							},
@@ -370,8 +365,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Parquet1')]",
-				"[concat(variables('factoryId'), '/datasets/ParquetAire')]",
+				"[concat(variables('factoryId'), '/datasets/Parquet2')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
 			]
 		},
@@ -1744,6 +1738,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": "part-00000-f77c7f4d-aec7-4eae-904f-6a2dad112adb-c000.snappy.parquet",
 						"folderPath": "calidadAire/Anio2025",
 						"container": "data"
 					},
