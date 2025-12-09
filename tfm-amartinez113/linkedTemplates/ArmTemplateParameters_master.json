@@ -5,6 +5,12 @@
 		"factoryName": {
 			"value": "tfm-amartinez113"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage2_connectionString": {
+			"value": ""
+		},
 		"AzureSqlDatabase1_password": {
 			"value": ""
 		},
@@ -18,12 +24,6 @@
 			"value": ""
 		},
 		"salidaCSV_connectionString": {
-			"value": ""
-		},
-		"AzureBlobStorage1_connectionString": {
-			"value": ""
-		},
-		"AzureBlobStorage2_connectionString": {
 			"value": ""
 		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
