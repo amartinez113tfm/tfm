@@ -1,0 +1,33 @@
+{
+	"name": "pipe_aire2025",
+	"properties": {
+		"description": "Genera el parquet de los datos de 2025 y los graba en la base de datos",
+		"activities": [
+			{
+				"name": "grabaAireHorario2025",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "grabaAireHorario2025",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": []
+	}
+}
