@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "part-00000-f77c7f4d-aec7-4eae-904f-6a2dad112adb-c000.snappy.parquet",
+				"fileName": "part-00001-f77c7f4d-aec7-4eae-904f-6a2dad112adb-c000.snappy.parquet",
 				"folderPath": "calidadAire/Anio2025",
 				"container": "data"
 			},
