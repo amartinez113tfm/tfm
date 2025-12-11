@@ -1,0 +1,13 @@
+{
+	"name": "RestAireRT",
+	"properties": {
+		"description": "Conexión a la API REST de calidad de aire en tiempo real",
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
