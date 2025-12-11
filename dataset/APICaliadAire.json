@@ -1,0 +1,12 @@
+{
+	"name": "APICaliadAire",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestCalidadAire",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
