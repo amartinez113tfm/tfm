@@ -1,0 +1,15 @@
+{
+	"name": "DatasetAireTiempoReal",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestAireRT",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "calair_tiemporeal.json?pageSize=122"
+		},
+		"schema": []
+	}
+}
