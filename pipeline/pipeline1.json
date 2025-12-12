@@ -39,340 +39,262 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['page']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['pageSize']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['totalRecords']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['pageRecords']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['status']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['responseDate']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['first']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['last']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['self']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['contentMD5']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['sinEntrecomillar']"
-								}
-							},
-							{
-								"source": {
 									"path": "$['records'][0]['PROVINCIA']"
+								},
+								"sink": {
+									"path": "PROVINCIA"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['MUNICIPIO']"
+								},
+								"sink": {
+									"path": "MUNICIPIO"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['ESTACION']"
+								},
+								"sink": {
+									"path": "ESTACION"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['MAGNITUD']"
+								},
+								"sink": {
+									"path": "MAGNITUD"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['PUNTO_MUESTREO']"
+								},
+								"sink": {
+									"path": "PUNTO_MUESTREO"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['ANO']"
+								},
+								"sink": {
+									"path": "ANO"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['MES']"
+								},
+								"sink": {
+									"path": "MES"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['DIA']"
+								},
+								"sink": {
+									"path": "DIA"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H01']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V01']"
+								},
+								"sink": {
+									"path": "01"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H02']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V02']"
+								},
+								"sink": {
+									"path": "02"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H03']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V03']"
+								},
+								"sink": {
+									"path": "03"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H04']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V04']"
+								},
+								"sink": {
+									"path": "04"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H05']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V05']"
+								},
+								"sink": {
+									"path": "05"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H06']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V06']"
+								},
+								"sink": {
+									"path": "06"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H07']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V07']"
+								},
+								"sink": {
+									"path": "07"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H08']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V08']"
+								},
+								"sink": {
+									"path": "08"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H09']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V09']"
+								},
+								"sink": {
+									"path": "09"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H10']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V10']"
+								},
+								"sink": {
+									"path": "10"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H11']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V11']"
+								},
+								"sink": {
+									"path": "11"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H12']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V12']"
+								},
+								"sink": {
+									"path": "12"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H13']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V13']"
+								},
+								"sink": {
+									"path": "13"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H14']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V14']"
+								},
+								"sink": {
+									"path": "14"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H15']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V15']"
+								},
+								"sink": {
+									"path": "15"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H16']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V16']"
+								},
+								"sink": {
+									"path": "16"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H17']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V17']"
+								},
+								"sink": {
+									"path": "17"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H18']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V18']"
+								},
+								"sink": {
+									"path": "18"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H19']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V19']"
+								},
+								"sink": {
+									"path": "19"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H20']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V20']"
+								},
+								"sink": {
+									"path": "20"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H21']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V21']"
+								},
+								"sink": {
+									"path": "21"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H22']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V22']"
+								},
+								"sink": {
+									"path": "22"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H23']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V23']"
+								},
+								"sink": {
+									"path": "23"
 								}
 							},
 							{
 								"source": {
 									"path": "$['records'][0]['H24']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['records'][0]['V24']"
+								},
+								"sink": {
+									"path": "24"
 								}
 							}
-						]
+						],
+						"collectionReference": "$['records']"
 					}
 				},
 				"inputs": [
