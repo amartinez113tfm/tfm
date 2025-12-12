@@ -47,6 +47,14 @@
 			"type": "string",
 			"defaultValue": "amartinez113"
 		},
+		"RestAireRT_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
+		},
+		"RestCalidadAire_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.json?pageSize=122"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI de la cuenta de almacenamiento que contiene las plantillas de ARM vinculadas."
@@ -103,6 +111,12 @@
 					},
 					"AzureSqlDatabase1_properties_typeProperties_userName": {
 						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_userName')]"
+					},
+					"RestAireRT_properties_typeProperties_url": {
+						"value": "[parameters('RestAireRT_properties_typeProperties_url')]"
+					},
+					"RestCalidadAire_properties_typeProperties_url": {
+						"value": "[parameters('RestCalidadAire_properties_typeProperties_url')]"
 					}
 				}
 			},

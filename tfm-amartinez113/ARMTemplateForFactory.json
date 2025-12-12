@@ -46,6 +46,14 @@
 		"AzureSqlDatabase1_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "amartinez113"
+		},
+		"RestAireRT_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
+		},
+		"RestCalidadAire_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.json?pageSize=122"
 		}
 	},
 	"variables": {
@@ -475,6 +483,357 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET",
+								"paginationRules": {
+									"supportRFC5988": "true"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['records'][0]['PROVINCIA']"
+										},
+										"sink": {
+											"path": "PROVINCIA"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['MUNICIPIO']"
+										},
+										"sink": {
+											"path": "MUNICIPIO"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['ESTACION']"
+										},
+										"sink": {
+											"path": "ESTACION"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['MAGNITUD']"
+										},
+										"sink": {
+											"path": "MAGNITUD"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['PUNTO_MUESTREO']"
+										},
+										"sink": {
+											"path": "PUNTO_MUESTREO"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['ANO']"
+										},
+										"sink": {
+											"path": "ANO"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['MES']"
+										},
+										"sink": {
+											"path": "MES"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['DIA']"
+										},
+										"sink": {
+											"path": "DIA"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H01']"
+										},
+										"sink": {
+											"path": "01"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H02']"
+										},
+										"sink": {
+											"path": "02"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H03']"
+										},
+										"sink": {
+											"path": "03"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H04']"
+										},
+										"sink": {
+											"path": "04"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H05']"
+										},
+										"sink": {
+											"path": "05"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H06']"
+										},
+										"sink": {
+											"path": "06"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H07']"
+										},
+										"sink": {
+											"path": "07"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H08']"
+										},
+										"sink": {
+											"path": "08"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H09']"
+										},
+										"sink": {
+											"path": "09"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H10']"
+										},
+										"sink": {
+											"path": "010"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H11']"
+										},
+										"sink": {
+											"path": "011"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H12']"
+										},
+										"sink": {
+											"path": "012"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H13']"
+										},
+										"sink": {
+											"path": "013"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H14']"
+										},
+										"sink": {
+											"path": "014"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H15']"
+										},
+										"sink": {
+											"path": "015"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H16']"
+										},
+										"sink": {
+											"path": "016"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H17']"
+										},
+										"sink": {
+											"path": "017"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H18']"
+										},
+										"sink": {
+											"path": "018"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H19']"
+										},
+										"sink": {
+											"path": "019"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H20']"
+										},
+										"sink": {
+											"path": "020"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H21']"
+										},
+										"sink": {
+											"path": "021"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H22']"
+										},
+										"sink": {
+											"path": "022"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H23']"
+										},
+										"sink": {
+											"path": "023"
+										}
+									},
+									{
+										"source": {
+											"path": "$['records'][0]['H24']"
+										},
+										"sink": {
+											"path": "024"
+										}
+									}
+								],
+								"collectionReference": "$['records']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DatasetAireTiempoReal",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AireRT",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DatasetAireTiempoReal')]",
+				"[concat(variables('factoryId'), '/datasets/AireRT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AireRT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "calidadAire",
+						"container": "data"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -493,6 +852,26 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DatasetAireTiempoReal')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestAireRT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {
+					"relativeUrl": "calair_tiemporeal.json?pageSize=122"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RestAireRT')]"
 			]
 		},
 		{
@@ -535,7 +914,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "part-00000-f77c7f4d-aec7-4eae-904f-6a2dad112adb-c000.snappy.parquet",
+						"fileName": "part-00001-f77c7f4d-aec7-4eae-904f-6a2dad112adb-c000.snappy.parquet",
 						"folderPath": "calidadAire/Anio2025",
 						"container": "data"
 					},
@@ -1242,6 +1621,38 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('ConexionParquetAire_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestAireRT')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Conexión a la API REST de calidad de aire en tiempo real",
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestAireRT_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestCalidadAire')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Conexión al api de calidad de aire en tiempo real",
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestCalidadAire_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
 				}
 			},
 			"dependsOn": []
