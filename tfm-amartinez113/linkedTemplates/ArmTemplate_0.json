@@ -207,6 +207,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": "aireTemporal.json",
 						"folderPath": "calidadAire",
 						"container": "data"
 					}
