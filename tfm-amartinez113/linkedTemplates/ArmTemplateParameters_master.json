@@ -38,6 +38,9 @@
 		"AzureSqlDatabase1_properties_typeProperties_userName": {
 			"value": "amartinez113"
 		},
+		"HttpAireRTCSV_properties_typeProperties_url": {
+			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=200"
+		},
 		"RestAireRT_properties_typeProperties_url": {
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
 		},
@@ -46,9 +49,6 @@
 		},
 		"RestServiceAireRTCSV_properties_typeProperties_url": {
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
-		},
-		"HttpAireRTCSV_properties_typeProperties_url": {
-			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=200"
 		},
 		"containerUri": {
 			"value": ""

@@ -51,6 +51,10 @@
 			"type": "string",
 			"defaultValue": "amartinez113"
 		},
+		"HttpAireRTCSV_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=200"
+		},
 		"RestAireRT_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
@@ -62,10 +66,6 @@
 		"RestServiceAireRTCSV_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
-		},
-		"HttpAireRTCSV_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=200"
 		}
 	},
 	"variables": {
@@ -145,7 +145,9 @@
 							"dataset": {
 								"referenceName": "ParquetAire",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"NombreArchivoActual": " part-00000-00ccce30-d5f8-44e9-aa0c-67f8f9992c26-c000.snappy.parquet"
+								}
 							},
 							"firstRowOnly": false
 						}
@@ -716,6 +718,43 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "grabaAireRT",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "getAireRT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "grabaAireRT",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"parquet": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -725,7 +764,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/HTTPaireRTCSV')]",
-				"[concat(variables('factoryId'), '/datasets/AireRTCSV')]"
+				"[concat(variables('factoryId'), '/datasets/AireRTCSV')]",
+				"[concat(variables('factoryId'), '/dataflows/grabaAireRT')]"
 			]
 		},
 		{
@@ -861,7 +901,9 @@
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"source1": {},
+									"source1": {
+										"NombreArchivoActual": " part-00000-00ccce30-d5f8-44e9-aa0c-67f8f9992c26-c000.snappy.parquet"
+									},
 									"tblAireHora": {}
 								}
 							},
@@ -959,6 +1001,41 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AireRTCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Salida en CSVpara la consulta al API de calidad de aire en tiempo real",
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "aireRT.csv",
+						"folderPath": "calidadAire",
+						"container": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PROVINCIA;MUNICIPIO;ESTACION;MAGNITUD;PUNTO_MUESTREO;ANO;MES;DIA;H01;V01;H02;V02;H03;V03;H04;V04;H05;V05;H06;V06;H07;V07;H08;V08;H09;V09;H10;V10;H11;V11;H12;V12;H13;V13;H14;V14;H15;V15;H16;V16;H17;V17;H18;V18;H19;V19;H20;V20;H21;V21;H22;V22;H23;V23;H24;V24",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -997,6 +1074,32 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/RestServiceAireRTCSV')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HTTPaireRTCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "HttpAireRTCSV",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/HttpAireRTCSV')]"
 			]
 		},
 		{
@@ -1121,6 +1224,68 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ConexionParquetAire')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ParquetAireRT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "calidadAire/temporal",
+						"container": "data"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "fechaTotal",
+						"type": "DATE"
+					},
+					{
+						"name": "PROVINCIA",
+						"type": "INT_16"
+					},
+					{
+						"name": "MUNICIPIO",
+						"type": "INT_16"
+					},
+					{
+						"name": "ESTACION",
+						"type": "INT_16"
+					},
+					{
+						"name": "PUNTO_MUESTREO",
+						"type": "UTF8"
+					},
+					{
+						"name": "MAGNITUD",
+						"type": "INT_16"
+					},
+					{
+						"name": "Hora",
+						"type": "UTF8"
+					},
+					{
+						"name": "Medida",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "UTCTime",
+						"type": "INT96"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
 			]
 		},
 		{
@@ -1764,6 +1929,22 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/HttpAireRTCSV')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Para poder bajarme el archivo en tiempo real en csv",
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('HttpAireRTCSV_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/RestAireRT')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1789,6 +1970,22 @@
 				"type": "RestService",
 				"typeProperties": {
 					"url": "[parameters('RestCalidadAire_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestServiceAireRTCSV')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Conexión al API REST de calidad de aire para traerme los datos en CSV",
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestServiceAireRTCSV_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
@@ -2184,6 +2381,179 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/grabaAireRT')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Trata los datos de API en formato csv de los datos en tiempo real de calidad de aire",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AireRTCSV",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ParquetAireRT",
+								"type": "DatasetReference"
+							},
+							"name": "parquet"
+						}
+					],
+					"transformations": [
+						{
+							"name": "unpivot1"
+						},
+						{
+							"name": "derivedColumn1",
+							"description": "Crea una nueva columna con la fecha completa"
+						},
+						{
+							"name": "AddUTC",
+							"description": "Crea una columna UTC partiendo de la fecha y la hora"
+						},
+						{
+							"name": "select1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          PROVINCIA as short,",
+						"          MUNICIPIO as short,",
+						"          ESTACION as short,",
+						"          MAGNITUD as short,",
+						"          PUNTO_MUESTREO as string,",
+						"          ANO as short,",
+						"          MES as short,",
+						"          DIA as short,",
+						"          {01} as double,",
+						"          {02} as double,",
+						"          {03} as double,",
+						"          {04} as double,",
+						"          {05} as double,",
+						"          {06} as double,",
+						"          {07} as double,",
+						"          {08} as double,",
+						"          {09} as double,",
+						"          {10} as double,",
+						"          {11} as double,",
+						"          {12} as double,",
+						"          {13} as double,",
+						"          {14} as double,",
+						"          {15} as double,",
+						"          {16} as double,",
+						"          {17} as double,",
+						"          {18} as double,",
+						"          {19} as double,",
+						"          {20} as double,",
+						"          {21} as double,",
+						"          {22} as double,",
+						"          {23} as double,",
+						"          {24} as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"select1 unpivot(output(",
+						"          Hora as integer,",
+						"          Medida as double",
+						"     ),",
+						"     ungroupBy(fechaTotal,",
+						"          PROVINCIA,",
+						"          MUNICIPIO,",
+						"          ESTACION,",
+						"          PUNTO_MUESTREO,",
+						"          MAGNITUD),",
+						"     lateral: false,",
+						"     ignoreNullPivots: false) ~> unpivot1",
+						"source1 derive(fechaTotal = toDate(\r",
+						"  concat(\r",
+						"    toString(ANO), '-', \r",
+						"    toString(MES), '-', \r",
+						"    toString(DIA)\r",
+						"  ), \r",
+						"  'yyyy-MM-dd'\r",
+						")) ~> derivedColumn1",
+						"unpivot1 derive(UTCTime = toTimestamp(\r",
+						"        iif(\r",
+						"            toInteger(Hora) == 24,\r",
+						"            concat(\r",
+						"                toString(addDays(fechaTotal, 1), 'yyyy-MM-dd'),\r",
+						"                ' 00'\r",
+						"            ),\r",
+						"            concat(\r",
+						"                toString(fechaTotal, 'yyyy-MM-dd'), \r",
+						"                ' ',\r",
+						"                lpad(toString(toInteger(Hora)), 2, '0') \r",
+						"            )\r",
+						"        ),\r",
+						"        'yyyy-MM-dd HH'\r",
+						"    )) ~> AddUTC",
+						"derivedColumn1 select(mapColumn(",
+						"          PROVINCIA,",
+						"          MUNICIPIO,",
+						"          ESTACION,",
+						"          MAGNITUD,",
+						"          PUNTO_MUESTREO,",
+						"          {01},",
+						"          {02},",
+						"          {03},",
+						"          {04},",
+						"          {05},",
+						"          {06},",
+						"          {07},",
+						"          {08},",
+						"          {09},",
+						"          {10},",
+						"          {11},",
+						"          {12},",
+						"          {13},",
+						"          {14},",
+						"          {15},",
+						"          {16},",
+						"          {17},",
+						"          {18},",
+						"          {19},",
+						"          {20},",
+						"          {21},",
+						"          {22},",
+						"          {23},",
+						"          {24},",
+						"          fechaTotal",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"AddUTC sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          fechaTotal as date,",
+						"          PROVINCIA as short,",
+						"          MUNICIPIO as short,",
+						"          ESTACION as short,",
+						"          PUNTO_MUESTREO as string,",
+						"          MAGNITUD as short,",
+						"          Hora as string,",
+						"          Medida as double,",
+						"          UTCTime as timestamp",
+						"     ),",
+						"     format: 'parquet',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> parquet"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AireRTCSV')]",
+				"[concat(variables('factoryId'), '/datasets/ParquetAireRT')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/parquetToBBDD')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -2303,99 +2673,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Parquet2')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AireRTCSV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Salida en CSVpara la consulta al API de calidad de aire en tiempo real",
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "aireRT.csv",
-						"folderPath": "calidadAire",
-						"container": "data"
-					},
-					"columnDelimiter": ";",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "PROVINCIA;MUNICIPIO;ESTACION;MAGNITUD;PUNTO_MUESTREO;ANO;MES;DIA;H01;V01;H02;V02;H03;V03;H04;V04;H05;V05;H06;V06;H07;V07;H08;V08;H09;V09;H10;V10;H11;V11;H12;V12;H13;V13;H14;V14;H15;V15;H16;V16;H17;V17;H18;V18;H19;V19;H20;V20;H21;V21;H22;V22;H23;V23;H24;V24",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RestServiceAireRTCSV')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Conexión al API REST de calidad de aire para traerme los datos en CSV",
-				"annotations": [],
-				"type": "RestService",
-				"typeProperties": {
-					"url": "[parameters('RestServiceAireRTCSV_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/HttpAireRTCSV')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Para poder bajarme el archivo en tiempo real en csv",
-				"annotations": [],
-				"type": "HttpServer",
-				"typeProperties": {
-					"url": "[parameters('HttpAireRTCSV_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/HTTPaireRTCSV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "HttpAireRTCSV",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "HttpServerLocation"
-					},
-					"columnDelimiter": ";",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/HttpAireRTCSV')]"
 			]
 		}
 	]

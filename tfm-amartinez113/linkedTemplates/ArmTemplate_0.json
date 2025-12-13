@@ -51,6 +51,10 @@
 			"type": "string",
 			"defaultValue": "amartinez113"
 		},
+		"HttpAireRTCSV_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=200"
+		},
 		"RestAireRT_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
@@ -62,10 +66,6 @@
 		"RestServiceAireRTCSV_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
-		},
-		"HttpAireRTCSV_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=200"
 		}
 	},
 	"variables": {
@@ -147,6 +147,22 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/HttpAireRTCSV')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Para poder bajarme el archivo en tiempo real en csv",
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('HttpAireRTCSV_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/RestAireRT')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -172,6 +188,22 @@
 				"type": "RestService",
 				"typeProperties": {
 					"url": "[parameters('RestCalidadAire_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestServiceAireRTCSV')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Conexión al API REST de calidad de aire para traerme los datos en CSV",
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestServiceAireRTCSV_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
@@ -219,38 +251,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/RestServiceAireRTCSV')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Conexión al API REST de calidad de aire para traerme los datos en CSV",
-				"annotations": [],
-				"type": "RestService",
-				"typeProperties": {
-					"url": "[parameters('RestServiceAireRTCSV_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/HttpAireRTCSV')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Para poder bajarme el archivo en tiempo real en csv",
-				"annotations": [],
-				"type": "HttpServer",
-				"typeProperties": {
-					"url": "[parameters('HttpAireRTCSV_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/AireRT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -270,6 +270,41 @@
 					}
 				},
 				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AireRTCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Salida en CSVpara la consulta al API de calidad de aire en tiempo real",
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "aireRT.csv",
+						"folderPath": "calidadAire",
+						"container": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PROVINCIA;MUNICIPIO;ESTACION;MAGNITUD;PUNTO_MUESTREO;ANO;MES;DIA;H01;V01;H02;V02;H03;V03;H04;V04;H05;V05;H06;V06;H07;V07;H08;V08;H09;V09;H10;V10;H11;V11;H12;V12;H13;V13;H14;V14;H15;V15;H16;V16;H17;V17;H18;V18;H19;V19;H20;V20;H21;V21;H22;V22;H23;V23;H24;V24",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
@@ -314,6 +349,32 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/RestServiceAireRTCSV')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HTTPaireRTCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "HttpAireRTCSV",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/HttpAireRTCSV')]"
 			]
 		},
 		{
@@ -438,289 +499,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ConexionParquetAire')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/datosAire2025')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Datos de caliad de ahire por horas hasta octubre de 2025",
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "CALIDAD_AIRE_HORARIOS20251013.csv",
-						"folderPath": "calidadAire/Anio2025",
-						"container": "data"
-					},
-					"columnDelimiter": ";",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_aire')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "calidadAire",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": "calidadAire",
-						"container": "data"
-					},
-					"columnDelimiter": ";",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "PROVINCIA",
-						"type": "String"
-					},
-					{
-						"name": "MUNICIPIO",
-						"type": "String"
-					},
-					{
-						"name": "ESTACION",
-						"type": "String"
-					},
-					{
-						"name": "MAGNITUD",
-						"type": "String"
-					},
-					{
-						"name": "PUNTO_MUESTREO",
-						"type": "String"
-					},
-					{
-						"name": "ANO",
-						"type": "String"
-					},
-					{
-						"name": "MES",
-						"type": "String"
-					},
-					{
-						"name": "DIA",
-						"type": "String"
-					},
-					{
-						"name": "H01",
-						"type": "String"
-					},
-					{
-						"name": "V01",
-						"type": "String"
-					},
-					{
-						"name": "H02",
-						"type": "String"
-					},
-					{
-						"name": "V02",
-						"type": "String"
-					},
-					{
-						"name": "H03",
-						"type": "String"
-					},
-					{
-						"name": "V03",
-						"type": "String"
-					},
-					{
-						"name": "H04",
-						"type": "String"
-					},
-					{
-						"name": "V04",
-						"type": "String"
-					},
-					{
-						"name": "H05",
-						"type": "String"
-					},
-					{
-						"name": "V05",
-						"type": "String"
-					},
-					{
-						"name": "H06",
-						"type": "String"
-					},
-					{
-						"name": "V06",
-						"type": "String"
-					},
-					{
-						"name": "H07",
-						"type": "String"
-					},
-					{
-						"name": "V07",
-						"type": "String"
-					},
-					{
-						"name": "H08",
-						"type": "String"
-					},
-					{
-						"name": "V08",
-						"type": "String"
-					},
-					{
-						"name": "H09",
-						"type": "String"
-					},
-					{
-						"name": "V09",
-						"type": "String"
-					},
-					{
-						"name": "H10",
-						"type": "String"
-					},
-					{
-						"name": "V10",
-						"type": "String"
-					},
-					{
-						"name": "H11",
-						"type": "String"
-					},
-					{
-						"name": "V11",
-						"type": "String"
-					},
-					{
-						"name": "H12",
-						"type": "String"
-					},
-					{
-						"name": "V12",
-						"type": "String"
-					},
-					{
-						"name": "H13",
-						"type": "String"
-					},
-					{
-						"name": "V13",
-						"type": "String"
-					},
-					{
-						"name": "H14",
-						"type": "String"
-					},
-					{
-						"name": "V14",
-						"type": "String"
-					},
-					{
-						"name": "H15",
-						"type": "String"
-					},
-					{
-						"name": "V15",
-						"type": "String"
-					},
-					{
-						"name": "H16",
-						"type": "String"
-					},
-					{
-						"name": "V16",
-						"type": "String"
-					},
-					{
-						"name": "H17",
-						"type": "String"
-					},
-					{
-						"name": "V17",
-						"type": "String"
-					},
-					{
-						"name": "H18",
-						"type": "String"
-					},
-					{
-						"name": "V18",
-						"type": "String"
-					},
-					{
-						"name": "H19",
-						"type": "String"
-					},
-					{
-						"name": "V19",
-						"type": "String"
-					},
-					{
-						"name": "H20",
-						"type": "String"
-					},
-					{
-						"name": "V20",
-						"type": "String"
-					},
-					{
-						"name": "H21",
-						"type": "String"
-					},
-					{
-						"name": "V21",
-						"type": "String"
-					},
-					{
-						"name": "H22",
-						"type": "String"
-					},
-					{
-						"name": "V22",
-						"type": "String"
-					},
-					{
-						"name": "H23",
-						"type": "String"
-					},
-					{
-						"name": "V23",
-						"type": "String"
-					},
-					{
-						"name": "H24",
-						"type": "String"
-					},
-					{
-						"name": "V24",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/calidadAire')]"
 			]
 		}
 	]
