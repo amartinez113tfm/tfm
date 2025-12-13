@@ -11,6 +11,9 @@
 		"AzureBlobStorage2_connectionString": {
 			"value": ""
 		},
+		"AzureBlobStorage3_connectionString": {
+			"value": ""
+		},
 		"AzureSqlDatabase1_password": {
 			"value": ""
 		},
@@ -40,6 +43,12 @@
 		},
 		"RestCalidadAire_properties_typeProperties_url": {
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.json?pageSize=122"
+		},
+		"RestServiceAireRTCSV_properties_typeProperties_url": {
+			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
+		},
+		"HttpAireRTCSV_properties_typeProperties_url": {
+			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=200"
 		}
 	}
 }

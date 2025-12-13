@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"AzureBlobStorage2\""
 		},
+		"AzureBlobStorage3_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"AzureBlobStorage3\""
+		},
 		"AzureSqlDatabase1_password": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabase1\""
@@ -54,6 +58,14 @@
 		"RestCalidadAire_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.json?pageSize=122"
+		},
+		"RestServiceAireRTCSV_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
+		},
+		"HttpAireRTCSV_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=200"
 		}
 	},
 	"variables": {
@@ -278,6 +290,445 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pipeAireDiario')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Coge los datos de la API, transforma el JSON y lo guarda en la base de datos",
+				"activities": [
+					{
+						"name": "getAireRT",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "PROVINCIA",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PROVINCIA",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MUNICIPIO",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MUNICIPIO",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ESTACION",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ESTACION",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MAGNITUD",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MAGNITUD",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PUNTO_MUESTREO",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PUNTO_MUESTREO",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ANO",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ANO",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MES",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MES",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DIA",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DIA",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H01",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "01",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H02",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "02",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H03",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "03",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H04",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "04",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H05",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "05",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H06",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "06",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H07",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "07",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H08",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "08",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H09",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "09",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H10",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "10",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H11",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "11",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H12",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "12",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H13",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "13",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H14",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "14",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H15",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "15",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H16",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "16",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H17",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "17",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H18",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "18",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H19",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "19",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H20",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "20",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H21",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "21",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H22",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "22",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H23",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "23",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H24",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "24",
+											"physicalType": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "HTTPaireRTCSV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AireRTCSV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/HTTPaireRTCSV')]",
+				"[concat(variables('factoryId'), '/datasets/AireRTCSV')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pipe_aire')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -483,333 +934,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET",
-								"paginationRules": {
-									"supportRFC5988": "true"
-								}
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['records'][0]['PROVINCIA']"
-										},
-										"sink": {
-											"path": "PROVINCIA"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['MUNICIPIO']"
-										},
-										"sink": {
-											"path": "MUNICIPIO"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['ESTACION']"
-										},
-										"sink": {
-											"path": "ESTACION"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['MAGNITUD']"
-										},
-										"sink": {
-											"path": "MAGNITUD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['PUNTO_MUESTREO']"
-										},
-										"sink": {
-											"path": "PUNTO_MUESTREO"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['ANO']"
-										},
-										"sink": {
-											"path": "ANO"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['MES']"
-										},
-										"sink": {
-											"path": "MES"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['DIA']"
-										},
-										"sink": {
-											"path": "DIA"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H01']"
-										},
-										"sink": {
-											"path": "01"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H02']"
-										},
-										"sink": {
-											"path": "02"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H03']"
-										},
-										"sink": {
-											"path": "03"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H04']"
-										},
-										"sink": {
-											"path": "04"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H05']"
-										},
-										"sink": {
-											"path": "05"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H06']"
-										},
-										"sink": {
-											"path": "06"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H07']"
-										},
-										"sink": {
-											"path": "07"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H08']"
-										},
-										"sink": {
-											"path": "08"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H09']"
-										},
-										"sink": {
-											"path": "09"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H10']"
-										},
-										"sink": {
-											"path": "010"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H11']"
-										},
-										"sink": {
-											"path": "011"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H12']"
-										},
-										"sink": {
-											"path": "012"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H13']"
-										},
-										"sink": {
-											"path": "013"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H14']"
-										},
-										"sink": {
-											"path": "014"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H15']"
-										},
-										"sink": {
-											"path": "015"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H16']"
-										},
-										"sink": {
-											"path": "016"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H17']"
-										},
-										"sink": {
-											"path": "017"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H18']"
-										},
-										"sink": {
-											"path": "018"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H19']"
-										},
-										"sink": {
-											"path": "019"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H20']"
-										},
-										"sink": {
-											"path": "020"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H21']"
-										},
-										"sink": {
-											"path": "021"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H22']"
-										},
-										"sink": {
-											"path": "022"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H23']"
-										},
-										"sink": {
-											"path": "023"
-										}
-									},
-									{
-										"source": {
-											"path": "$['records'][0]['H24']"
-										},
-										"sink": {
-											"path": "024"
-										}
-									}
-								],
-								"collectionReference": "$['records']"
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DatasetAireTiempoReal",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AireRT",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DatasetAireTiempoReal')]",
-				"[concat(variables('factoryId'), '/datasets/AireRT')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/AireRT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -861,18 +985,18 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "RestAireRT",
+					"referenceName": "RestServiceAireRTCSV",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
 				"type": "RestResource",
 				"typeProperties": {
-					"relativeUrl": "calair_tiemporeal.json?pageSize=122"
+					"relativeUrl": "calair_tiemporeal.csv?pageSize=122"
 				},
 				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/RestAireRT')]"
+				"[concat(variables('factoryId'), '/linkedServices/RestServiceAireRTCSV')]"
 			]
 		},
 		{
@@ -1592,6 +1716,19 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage3')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage3_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -2166,6 +2303,99 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Parquet2')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AireRTCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Salida en CSVpara la consulta al API de calidad de aire en tiempo real",
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "aireRT.csv",
+						"folderPath": "calidadAire",
+						"container": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PROVINCIA;MUNICIPIO;ESTACION;MAGNITUD;PUNTO_MUESTREO;ANO;MES;DIA;H01;V01;H02;V02;H03;V03;H04;V04;H05;V05;H06;V06;H07;V07;H08;V08;H09;V09;H10;V10;H11;V11;H12;V12;H13;V13;H14;V14;H15;V15;H16;V16;H17;V17;H18;V18;H19;V19;H20;V20;H21;V21;H22;V22;H23;V23;H24;V24",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestServiceAireRTCSV')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Conexión al API REST de calidad de aire para traerme los datos en CSV",
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestServiceAireRTCSV_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HttpAireRTCSV')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Para poder bajarme el archivo en tiempo real en csv",
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('HttpAireRTCSV_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HTTPaireRTCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "HttpAireRTCSV",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/HttpAireRTCSV')]"
 			]
 		}
 	]

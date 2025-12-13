@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"AzureBlobStorage2\""
 		},
+		"AzureBlobStorage3_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"AzureBlobStorage3\""
+		},
 		"AzureSqlDatabase1_password": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabase1\""
@@ -55,6 +59,14 @@
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.json?pageSize=122"
 		},
+		"RestServiceAireRTCSV_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
+		},
+		"HttpAireRTCSV_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=200"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI de la cuenta de almacenamiento que contiene las plantillas de ARM vinculadas."
@@ -88,6 +100,9 @@
 					"AzureBlobStorage2_connectionString": {
 						"value": "[parameters('AzureBlobStorage2_connectionString')]"
 					},
+					"AzureBlobStorage3_connectionString": {
+						"value": "[parameters('AzureBlobStorage3_connectionString')]"
+					},
 					"AzureSqlDatabase1_password": {
 						"value": "[parameters('AzureSqlDatabase1_password')]"
 					},
@@ -117,6 +132,12 @@
 					},
 					"RestCalidadAire_properties_typeProperties_url": {
 						"value": "[parameters('RestCalidadAire_properties_typeProperties_url')]"
+					},
+					"RestServiceAireRTCSV_properties_typeProperties_url": {
+						"value": "[parameters('RestServiceAireRTCSV_properties_typeProperties_url')]"
+					},
+					"HttpAireRTCSV_properties_typeProperties_url": {
+						"value": "[parameters('HttpAireRTCSV_properties_typeProperties_url')]"
 					}
 				}
 			},
