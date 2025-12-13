@@ -1,0 +1,13 @@
+{
+	"name": "HttpAireRTCSV",
+	"properties": {
+		"description": "Para poder bajarme el archivo en tiempo real en csv",
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=200",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
