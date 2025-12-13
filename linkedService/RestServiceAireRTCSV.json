@@ -1,0 +1,13 @@
+{
+	"name": "RestServiceAireRTCSV",
+	"properties": {
+		"description": "Conexión al API REST de calidad de aire para traerme los datos en CSV",
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
