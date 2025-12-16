@@ -5,7 +5,7 @@
 		"annotations": [],
 		"type": "HttpServer",
 		"typeProperties": {
-			"url": "https://datos.madrid.es/",
+			"url": "https://datos.madrid.es",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous"
 		}
