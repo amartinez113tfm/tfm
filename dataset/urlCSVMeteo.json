@@ -1,0 +1,29 @@
+{
+	"name": "urlCSVMeteo",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "urls_meteo_hora.csv",
+				"folderPath": "meteo",
+				"container": "data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "https://datos.madrid.es/egob/catalogo/300352-215-meteorologicos-horarios.csv",
+				"type": "String"
+			}
+		]
+	}
+}
