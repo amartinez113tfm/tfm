@@ -1,0 +1,13 @@
+{
+	"name": "HttpDescargaMeteo",
+	"properties": {
+		"description": "Conexión para la descarga de los ficheros de meteo de todos los meses",
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://datos.madrid.es/",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
