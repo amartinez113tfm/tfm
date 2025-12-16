@@ -67,6 +67,10 @@
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
 		},
+		"HttpDescargaMeteo_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datos.madrid.es/"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI de la cuenta de almacenamiento que contiene las plantillas de ARM vinculadas."
@@ -138,6 +142,9 @@
 					},
 					"RestServiceAireRTCSV_properties_typeProperties_url": {
 						"value": "[parameters('RestServiceAireRTCSV_properties_typeProperties_url')]"
+					},
+					"HttpDescargaMeteo_properties_typeProperties_url": {
+						"value": "[parameters('HttpDescargaMeteo_properties_typeProperties_url')]"
 					}
 				}
 			},
@@ -161,6 +168,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'tfm-amartinez113_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "tfm-amartinez113_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'tfm-amartinez113_ArmTemplate_1')]"
 			]
 		}
 	]
