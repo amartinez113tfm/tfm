@@ -51,7 +51,7 @@
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
 		},
 		"HttpDescargaMeteo_properties_typeProperties_url": {
-			"value": "https://datos.madrid.es/"
+			"value": "https://datos.madrid.es"
 		},
 		"containerUri": {
 			"value": ""

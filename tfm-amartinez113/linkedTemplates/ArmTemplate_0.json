@@ -69,7 +69,7 @@
 		},
 		"HttpDescargaMeteo_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://datos.madrid.es/"
+			"defaultValue": "https://datos.madrid.es"
 		}
 	},
 	"variables": {
