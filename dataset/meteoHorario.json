@@ -1,0 +1,16 @@
+{
+	"name": "meteoHorario",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseMeteo",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "meteo_hora"
+		}
+	}
+}
