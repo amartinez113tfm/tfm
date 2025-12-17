@@ -29,6 +29,12 @@
 		"salidaCSV_connectionString": {
 			"value": ""
 		},
+		"ficherosMeteo_connectionString": {
+			"value": ""
+		},
+		"parquetMeteo_connectionString": {
+			"value": ""
+		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"value": "amartinez113.database.windows.net"
 		},
@@ -41,6 +47,9 @@
 		"HttpAireRTCSV_properties_typeProperties_url": {
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=200"
 		},
+		"HttpDescargaMeteo_properties_typeProperties_url": {
+			"value": "https://datos.madrid.es"
+		},
 		"RestAireRT_properties_typeProperties_url": {
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
 		},
@@ -49,9 +58,6 @@
 		},
 		"RestServiceAireRTCSV_properties_typeProperties_url": {
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
-		},
-		"HttpDescargaMeteo_properties_typeProperties_url": {
-			"value": "https://datos.madrid.es"
 		},
 		"containerUri": {
 			"value": ""
