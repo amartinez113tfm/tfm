@@ -773,8 +773,6 @@
 			{
 				"name": "parquetToBBDD",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "graba los datos del csv en un parquet",
@@ -794,12 +792,7 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "parquetToBBDD",
-						"type": "DataFlowReference",
-						"datasetParameters": {
-							"source1": {
-								"NombreArchivoActual": " part-00000-00ccce30-d5f8-44e9-aa0c-67f8f9992c26-c000.snappy.parquet"
-							}
-						}
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
