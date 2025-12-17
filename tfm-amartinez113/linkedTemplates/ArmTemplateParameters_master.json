@@ -17,22 +17,25 @@
 		"AzureSqlDatabase1_password": {
 			"value": ""
 		},
+		"AzureSqlDatabaseMeteo_password": {
+			"value": ""
+		},
 		"ConexionParquetAire_connectionString": {
 			"value": ""
 		},
 		"calidadAire_connectionString": {
 			"value": ""
 		},
-		"parquetArireHora_connectionString": {
-			"value": ""
-		},
-		"salidaCSV_connectionString": {
-			"value": ""
-		},
 		"ficherosMeteo_connectionString": {
 			"value": ""
 		},
+		"parquetArireHora_connectionString": {
+			"value": ""
+		},
 		"parquetMeteo_connectionString": {
+			"value": ""
+		},
+		"salidaCSV_connectionString": {
 			"value": ""
 		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
@@ -42,6 +45,15 @@
 			"value": "aire"
 		},
 		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "amartinez113"
+		},
+		"AzureSqlDatabaseMeteo_properties_typeProperties_server": {
+			"value": "amartinez113.database.windows.net"
+		},
+		"AzureSqlDatabaseMeteo_properties_typeProperties_database": {
+			"value": "aire"
+		},
+		"AzureSqlDatabaseMeteo_properties_typeProperties_userName": {
 			"value": "amartinez113"
 		},
 		"HttpAireRTCSV_properties_typeProperties_url": {

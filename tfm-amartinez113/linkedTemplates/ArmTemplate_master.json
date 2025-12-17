@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabase1\""
 		},
+		"AzureSqlDatabaseMeteo_password": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseMeteo\""
+		},
 		"ConexionParquetAire_connectionString": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"ConexionParquetAire\""
@@ -31,21 +35,21 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"calidadAire\""
 		},
-		"parquetArireHora_connectionString": {
-			"type": "secureString",
-			"metadata": "Cadena protegida para \"connectionString\"de \"parquetArireHora\""
-		},
-		"salidaCSV_connectionString": {
-			"type": "secureString",
-			"metadata": "Cadena protegida para \"connectionString\"de \"salidaCSV\""
-		},
 		"ficherosMeteo_connectionString": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"ficherosMeteo\""
 		},
+		"parquetArireHora_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"parquetArireHora\""
+		},
 		"parquetMeteo_connectionString": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"parquetMeteo\""
+		},
+		"salidaCSV_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"salidaCSV\""
 		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"type": "string",
@@ -56,6 +60,18 @@
 			"defaultValue": "aire"
 		},
 		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "amartinez113"
+		},
+		"AzureSqlDatabaseMeteo_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "amartinez113.database.windows.net"
+		},
+		"AzureSqlDatabaseMeteo_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "aire"
+		},
+		"AzureSqlDatabaseMeteo_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "amartinez113"
 		},
@@ -118,23 +134,26 @@
 					"AzureSqlDatabase1_password": {
 						"value": "[parameters('AzureSqlDatabase1_password')]"
 					},
+					"AzureSqlDatabaseMeteo_password": {
+						"value": "[parameters('AzureSqlDatabaseMeteo_password')]"
+					},
 					"ConexionParquetAire_connectionString": {
 						"value": "[parameters('ConexionParquetAire_connectionString')]"
 					},
 					"calidadAire_connectionString": {
 						"value": "[parameters('calidadAire_connectionString')]"
 					},
-					"parquetArireHora_connectionString": {
-						"value": "[parameters('parquetArireHora_connectionString')]"
-					},
-					"salidaCSV_connectionString": {
-						"value": "[parameters('salidaCSV_connectionString')]"
-					},
 					"ficherosMeteo_connectionString": {
 						"value": "[parameters('ficherosMeteo_connectionString')]"
 					},
+					"parquetArireHora_connectionString": {
+						"value": "[parameters('parquetArireHora_connectionString')]"
+					},
 					"parquetMeteo_connectionString": {
 						"value": "[parameters('parquetMeteo_connectionString')]"
+					},
+					"salidaCSV_connectionString": {
+						"value": "[parameters('salidaCSV_connectionString')]"
 					},
 					"AzureSqlDatabase1_properties_typeProperties_server": {
 						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_server')]"
@@ -144,6 +163,15 @@
 					},
 					"AzureSqlDatabase1_properties_typeProperties_userName": {
 						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_userName')]"
+					},
+					"AzureSqlDatabaseMeteo_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabaseMeteo_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabaseMeteo_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabaseMeteo_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabaseMeteo_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabaseMeteo_properties_typeProperties_userName')]"
 					},
 					"HttpAireRTCSV_properties_typeProperties_url": {
 						"value": "[parameters('HttpAireRTCSV_properties_typeProperties_url')]"
