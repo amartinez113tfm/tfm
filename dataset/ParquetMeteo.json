@@ -1,0 +1,20 @@
+{
+	"name": "ParquetMeteo",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "parquetMeteo",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "meteo/egob/catalogo",
+				"container": "data"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

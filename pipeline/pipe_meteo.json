@@ -742,8 +742,6 @@
 			{
 				"name": "graba los datos del csv en un parquet",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "CopyMeteo",
