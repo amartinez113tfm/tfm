@@ -1,0 +1,13 @@
+{
+	"name": "HttpMeteoCSV",
+	"properties": {
+		"description": "Servicio para bajarme el csv de los datos en tiempo real (diario programado a las 00:00 horas",
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://datos.madrid.es/egob/catalogo/300392-11041819-meteorologia-tiempo-real.csv",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
