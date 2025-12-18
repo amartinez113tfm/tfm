@@ -2132,6 +2132,8 @@
 					{
 						"name": "graba los datos del csv en un parquet",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "CopyMeteo",
@@ -2169,8 +2171,6 @@
 					{
 						"name": "parquetMeteoToBBDD",
 						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "graba los datos del csv en un parquet",
@@ -2543,17 +2543,64 @@
 					"referenceName": "parquetMeteo",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"NombreArchivoActual": {
+						"type": "string",
+						"defaultValue": "part-00000-96e4c929-09a8-42c0-b0be-1173aaed0ca0-c000.snappy.parquet"
+					}
+				},
 				"annotations": [],
 				"type": "Parquet",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().NombreArchivoActual",
+							"type": "Expression"
+						},
 						"folderPath": "meteo/egob/catalogo",
 						"container": "data"
 					},
 					"compressionCodec": "snappy"
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "fechaTotal",
+						"type": "DATE"
+					},
+					{
+						"name": "PROVINCIA",
+						"type": "INT_16"
+					},
+					{
+						"name": "MUNICIPIO",
+						"type": "INT_16"
+					},
+					{
+						"name": "ESTACION",
+						"type": "INT_16"
+					},
+					{
+						"name": "PUNTO_MUESTREO",
+						"type": "UTF8"
+					},
+					{
+						"name": "MAGNITUD",
+						"type": "INT_16"
+					},
+					{
+						"name": "Hora",
+						"type": "UTF8"
+					},
+					{
+						"name": "Medida",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "UTCTime",
+						"type": "INT96"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/parquetMeteo')]"
@@ -4505,6 +4552,17 @@
 						"    )) ~> AddUTC",
 						"AddUTC sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     input(",
+						"          fechaTotal as date,",
+						"          PROVINCIA as short,",
+						"          MUNICIPIO as short,",
+						"          ESTACION as short,",
+						"          PUNTO_MUESTREO as string,",
+						"          MAGNITUD as short,",
+						"          Hora as string,",
+						"          Medida as double,",
+						"          UTCTime as timestamp",
+						"     ),",
 						"     format: 'parquet',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> parquet"
@@ -4547,7 +4605,18 @@
 					],
 					"transformations": [],
 					"scriptLines": [
-						"source(allowSchemaDrift: true,",
+						"source(output(",
+						"          fechaTotal as date,",
+						"          PROVINCIA as short,",
+						"          MUNICIPIO as short,",
+						"          ESTACION as short,",
+						"          PUNTO_MUESTREO as string,",
+						"          MAGNITUD as short,",
+						"          Hora as string,",
+						"          Medida as double,",
+						"          UTCTime as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet') ~> source1",

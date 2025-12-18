@@ -190,6 +190,17 @@
 						"    )) ~> AddUTC",
 						"AddUTC sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     input(",
+						"          fechaTotal as date,",
+						"          PROVINCIA as short,",
+						"          MUNICIPIO as short,",
+						"          ESTACION as short,",
+						"          PUNTO_MUESTREO as string,",
+						"          MAGNITUD as short,",
+						"          Hora as string,",
+						"          Medida as double,",
+						"          UTCTime as timestamp",
+						"     ),",
 						"     format: 'parquet',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> parquet"
@@ -229,7 +240,18 @@
 					],
 					"transformations": [],
 					"scriptLines": [
-						"source(allowSchemaDrift: true,",
+						"source(output(",
+						"          fechaTotal as date,",
+						"          PROVINCIA as short,",
+						"          MUNICIPIO as short,",
+						"          ESTACION as short,",
+						"          PUNTO_MUESTREO as string,",
+						"          MAGNITUD as short,",
+						"          Hora as string,",
+						"          Medida as double,",
+						"          UTCTime as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet') ~> source1",
@@ -2245,6 +2267,8 @@
 					{
 						"name": "graba los datos del csv en un parquet",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "CopyMeteo",
@@ -2282,8 +2306,6 @@
 					{
 						"name": "parquetMeteoToBBDD",
 						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "graba los datos del csv en un parquet",
