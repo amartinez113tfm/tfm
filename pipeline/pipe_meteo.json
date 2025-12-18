@@ -7,6 +7,8 @@
 				"name": "CopyMeteo",
 				"description": "Recorre todos los archivos que hay en la carpeta data\\meteo y copia a meteoTotal.csv",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -742,8 +744,6 @@
 			{
 				"name": "graba los datos del csv en un parquet",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "CopyMeteo",
@@ -762,7 +762,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "grabaAireHorario",
+						"referenceName": "grabaMeteoHorario",
 						"type": "DataFlowReference"
 					},
 					"compute": {
@@ -775,8 +775,6 @@
 			{
 				"name": "parquetMeteoToBBDD",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "graba los datos del csv en un parquet",
