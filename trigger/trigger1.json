@@ -1,13 +1,19 @@
 {
 	"name": "trigger1",
 	"properties": {
-		"description": "Trigger para la consulta de datos en tiempo real a las 12 de la noche de Aire Tiempo real",
+		"description": "Trigger para la consulta de datos en tiempo real a las 12 de la noche de Aire Tiempo real y Meteo Real",
 		"annotations": [],
 		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {
 					"referenceName": "pipeAireDiario",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "pipeMeteoDiario",
 					"type": "PipelineReference"
 				}
 			}
