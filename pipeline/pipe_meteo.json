@@ -744,6 +744,8 @@
 			{
 				"name": "graba los datos del csv en un parquet",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "CopyMeteo",
@@ -775,8 +777,6 @@
 			{
 				"name": "parquetMeteoToBBDD",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "graba los datos del csv en un parquet",

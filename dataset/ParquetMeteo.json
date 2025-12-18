@@ -5,11 +5,20 @@
 			"referenceName": "parquetMeteo",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"NombreArchivoActual": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().NombreArchivoActual",
+					"type": "Expression"
+				},
 				"folderPath": "meteo/egob/catalogo",
 				"container": "data"
 			},
