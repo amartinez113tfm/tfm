@@ -1,0 +1,45 @@
+{
+	"name": "pipeMeteoDiario",
+	"properties": {
+		"description": "Graba los datos meteorológicos del dia en la base de datos",
+		"activities": [
+			{
+				"name": "getMeteoRT",
+				"description": "Copia el csv con los datos diarios en tiempo real de meteorología",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "RTMeteoCSV",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "meteo"
+		},
+		"annotations": []
+	}
+}
