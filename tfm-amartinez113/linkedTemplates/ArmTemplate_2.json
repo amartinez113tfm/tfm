@@ -1521,7 +1521,7 @@
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
 									"recursive": true,
-									"wildcardFolderPath": "calidadAire",
+									"wildcardFolderPath": "meteo/egob/catalogo",
 									"wildcardFileName": "*.csv",
 									"enablePartitionDiscovery": false
 								},
