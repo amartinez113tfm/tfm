@@ -62,6 +62,9 @@
 		"HttpDescargaMeteo_properties_typeProperties_url": {
 			"value": "https://datos.madrid.es"
 		},
+		"HttpMeteoCSV_properties_typeProperties_url": {
+			"value": "https://datos.madrid.es/egob/catalogo/300392-11041819-meteorologia-tiempo-real.csv"
+		},
 		"RestAireRT_properties_typeProperties_url": {
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
 		},

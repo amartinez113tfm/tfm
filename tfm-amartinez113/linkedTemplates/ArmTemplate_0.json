@@ -83,6 +83,10 @@
 			"type": "string",
 			"defaultValue": "https://datos.madrid.es"
 		},
+		"HttpMeteoCSV_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datos.madrid.es/egob/catalogo/300392-11041819-meteorologia-tiempo-real.csv"
+		},
 		"RestAireRT_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
@@ -223,6 +227,22 @@
 				"type": "HttpServer",
 				"typeProperties": {
 					"url": "[parameters('HttpDescargaMeteo_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HttpMeteoCSV')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Servicio para bajarme el csv de los datos en tiempo real (diario programado a las 00:00 horas",
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('HttpMeteoCSV_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
@@ -423,26 +443,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DatasetAireTiempoReal')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "RestServiceAireRTCSV",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {
-					"relativeUrl": "calair_tiemporeal.csv?pageSize=122"
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/RestServiceAireRTCSV')]"
 			]
 		}
 	]

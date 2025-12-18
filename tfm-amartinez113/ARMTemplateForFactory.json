@@ -83,6 +83,10 @@
 			"type": "string",
 			"defaultValue": "https://datos.madrid.es"
 		},
+		"HttpMeteoCSV_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datos.madrid.es/egob/catalogo/300392-11041819-meteorologia-tiempo-real.csv"
+		},
 		"RestAireRT_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
@@ -1173,6 +1177,761 @@
 				"[concat(variables('factoryId'), '/dataflows/grabaAireRT')]",
 				"[concat(variables('factoryId'), '/datasets/ParquetAireRT')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeMeteoDiario')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Graba los datos meteorológicos del dia en la base de datos",
+				"activities": [
+					{
+						"name": "getMeteoRT",
+						"description": "Copia el csv con los datos diarios en tiempo real de meteorología",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "PROVINCIA",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PROVINCIA",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MUNICIPIO",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MUNICIPIO",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ESTACION",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ESTACION",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MAGNITUD",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MAGNITUD",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PUNTO_MUESTREO",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PUNTO_MUESTREO",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ANO",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ANO",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MES",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MES",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DIA",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DIA",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H01",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H01",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V01",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V01",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H02",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H02",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V02",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V02",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H03",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H03",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V03",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V03",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H04",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H04",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V04",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V04",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H05",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H05",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V05",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V05",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H06",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H06",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V06",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V06",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H07",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H07",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V07",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V07",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H08",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H08",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V08",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V08",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H09",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H09",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V09",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V09",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H10",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H10",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V10",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V10",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H11",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H11",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V11",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V11",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H12",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H12",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V12",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V12",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H13",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H13",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V13",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V13",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H14",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H14",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V14",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V14",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H15",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H15",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V15",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V15",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H16",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H16",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V16",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V16",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H17",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H17",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V17",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V17",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H18",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H18",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V18",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V18",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H19",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H19",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V19",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V19",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H20",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H20",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V20",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V20",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H21",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H21",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V21",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V21",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H22",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H22",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V22",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V22",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H23",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H23",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V23",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V23",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "H24",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "H24",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "V24",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "V24",
+											"type": "String",
+											"physicalType": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "RTMeteoCSV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "meteoRT",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "meteo"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/RTMeteoCSV')]",
+				"[concat(variables('factoryId'), '/datasets/meteoRT')]"
 			]
 		},
 		{
@@ -2607,6 +3366,37 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/RTMeteoCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "HttpMeteoCSV",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PROVINCIA;MUNICIPIO;ESTACION;MAGNITUD;PUNTO_MUESTREO;ANO;MES;DIA;H01;V01;H02;V02;H03;V03;H04;V04;H05;V05;H06;V06;H07;V07;H08;V08;H09;V09;H10;V10;H11;V11;H12;V12;H13;V13;H14;V14;H15;V15;H16;V16;H17;V17;H18;V18;H19;V19;H20;V20;H21;V21;H22;V22;H23;V23;H24;V24",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/HttpMeteoCSV')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/datosAire2025')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3229,6 +4019,40 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/meteoRT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "meteoRT.csv",
+						"folderPath": "meteo/egob/catalogo",
+						"container": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PROVINCIA;MUNICIPIO;ESTACION;MAGNITUD;PUNTO_MUESTREO;ANO;MES;DIA;H01;V01;H02;V02;H03;V03;H04;V04;H05;V05;H06;V06;H07;V07;H08;V08;H09;V09;H10;V10;H11;V11;H12;V12;H13;V13;H14;V14;H15;V15;H16;V16;H17;V17;H18;V18;H19;V19;H20;V20;H21;V21;H22;V22;H23;V23;H24;V24",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/salida_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3701,6 +4525,22 @@
 				"type": "HttpServer",
 				"typeProperties": {
 					"url": "[parameters('HttpDescargaMeteo_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HttpMeteoCSV')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Servicio para bajarme el csv de los datos en tiempo real (diario programado a las 00:00 horas",
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('HttpMeteoCSV_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
