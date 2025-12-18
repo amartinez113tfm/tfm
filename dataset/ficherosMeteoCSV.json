@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "totalMeteo.csv",
 				"folderPath": "meteo/egob/catalogo",
 				"container": "data"
 			},
@@ -18,11 +19,6 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "https://datos.madrid.es/egob/catalogo/300352-215-meteorologicos-horarios.csv",
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }
