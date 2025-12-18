@@ -41,6 +41,680 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "PROVINCIA",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "PROVINCIA",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MUNICIPIO",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "MUNICIPIO",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESTACION",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ESTACION",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MAGNITUD",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "MAGNITUD",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PUNTO_MUESTREO",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "PUNTO_MUESTREO",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ANO",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ANO",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MES",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "MES",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DIA",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "DIA",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H01",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H01",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V01",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V01",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H02",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H02",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V02",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V02",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H03",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H03",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V03",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V03",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H04",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H04",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V04",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V04",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H05",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H05",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V05",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V05",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H06",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H06",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V06",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V06",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H07",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H07",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V07",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V07",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H08",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H08",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V08",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V08",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H09",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H09",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V09",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V09",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H10",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H10",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V10",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V10",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H11",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H11",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V11",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V11",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H12",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H12",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V12",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V12",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H13",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H13",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V13",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V13",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H14",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H14",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V14",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V14",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H15",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H15",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V15",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V15",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H16",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H16",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V16",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V16",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H17",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H17",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V17",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V17",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H18",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H18",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V18",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V18",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H19",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H19",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V19",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V19",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H20",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H20",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V20",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V20",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H21",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H21",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V21",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V21",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H22",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H22",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V22",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V22",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H23",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H23",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V23",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V23",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "H24",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "H24",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "V24",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "V24",
+									"type": "String",
+									"physicalType": "String"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
