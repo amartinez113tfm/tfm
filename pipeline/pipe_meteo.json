@@ -7,8 +7,6 @@
 				"name": "CopyMeteo",
 				"description": "Recorre todos los archivos que hay en la carpeta data\\meteo y copia a meteoTotal.csv",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -744,8 +742,6 @@
 			{
 				"name": "graba los datos del csv en un parquet",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "CopyMeteo",
@@ -765,7 +761,12 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "grabaMeteoHorario",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"parquet": {
+								"NombreArchivoActual": "part-00000-96e4c929-09a8-42c0-b0be-1173aaed0ca0-c000.snappy.parquet"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
@@ -796,7 +797,12 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "parquetMeteoToBBDD",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"source1": {
+								"NombreArchivoActual": "part-00000-96e4c929-09a8-42c0-b0be-1173aaed0ca0-c000.snappy.parquet"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
