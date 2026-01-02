@@ -130,7 +130,12 @@
 										{
 											"referenceName": "ficherosMeteoCSV",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"FileName": {
+													"value": "@concat(item().name,'.csv')",
+													"type": "Expression"
+												}
+											}
 										}
 									]
 								}
