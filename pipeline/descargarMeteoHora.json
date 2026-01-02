@@ -115,7 +115,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"FileName": {
-											"value": "@concat(item().name,'.csv')",
+											"value": "@concat(item().Prop_0,'.csv')",
 											"type": "Expression"
 										}
 									}
