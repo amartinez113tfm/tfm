@@ -121,6 +121,73 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "Data flow1",
+							"type": "ExecuteDataFlow",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataflow": {
+									"referenceName": "grabaAireRT",
+									"type": "DataFlowReference"
+								},
+								"compute": {
+									"coreCount": 8,
+									"computeType": "General"
+								},
+								"traceLevel": "Fine"
+							}
+						},
+						{
+							"name": "parquetToBBDD",
+							"type": "ExecuteDataFlow",
+							"dependsOn": [
+								{
+									"activity": "Data flow1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataflow": {
+									"referenceName": "parquetToBBDD",
+									"type": "DataFlowReference",
+									"datasetParameters": {
+										"source1": {
+											"NombreArchivoActual": " part-00000-00ccce30-d5f8-44e9-aa0c-67f8f9992c26-c000.snappy.parquet"
+										}
+									}
+								},
+								"compute": {
+									"coreCount": 8,
+									"computeType": "General"
+								},
+								"traceLevel": "Fine"
+							}
 						}
 					]
 				}
