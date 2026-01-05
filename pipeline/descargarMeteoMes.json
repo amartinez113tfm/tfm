@@ -1,5 +1,5 @@
 {
-	"name": "descargarMeteoHora",
+	"name": "descargarMeteoMes",
 	"properties": {
 		"activities": [
 			{
@@ -111,7 +111,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "meteoRT",
+									"referenceName": "CSVMeteoMes",
 									"type": "DatasetReference"
 								}
 							]
@@ -137,8 +137,13 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataflow": {
-									"referenceName": "grabaMeteoRT",
-									"type": "DataFlowReference"
+									"referenceName": "grabaMeteoMes",
+									"type": "DataFlowReference",
+									"datasetParameters": {
+										"parquet": {
+											"NombreArchivoActual": "part-00000-96e4c929-09a8-42c0-b0be-1173aaed0ca0-c000.snappy.parquet"
+										}
+									}
 								},
 								"compute": {
 									"coreCount": 8,
@@ -168,13 +173,8 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataflow": {
-									"referenceName": "parquetToBBDD",
-									"type": "DataFlowReference",
-									"datasetParameters": {
-										"source1": {
-											"NombreArchivoActual": " part-00000-00ccce30-d5f8-44e9-aa0c-67f8f9992c26-c000.snappy.parquet"
-										}
-									}
+									"referenceName": "parquetMeteoMesToBBDD",
+									"type": "DataFlowReference"
 								},
 								"compute": {
 									"coreCount": 8,
