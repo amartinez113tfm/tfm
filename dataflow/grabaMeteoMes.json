@@ -13,7 +13,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "source1",
-					"description": "Importar datos de totalMeteo"
+					"description": "Importar datos de MeteoMes"
 				}
 			],
 			"sinks": [
