@@ -111,14 +111,8 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "ficherosMeteoCSV",
-									"type": "DatasetReference",
-									"parameters": {
-										"FileName": {
-											"value": "@concat(item().Prop_0,'.csv')",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "meteoRT",
+									"type": "DatasetReference"
 								}
 							]
 						},
