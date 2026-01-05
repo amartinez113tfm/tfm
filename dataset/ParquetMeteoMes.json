@@ -1,0 +1,70 @@
+{
+	"name": "ParquetMeteoMes",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "parquetMeteo",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"NombreArchivoActual": {
+				"type": "string",
+				"defaultValue": "part-00000-96e4c929-09a8-42c0-b0be-1173aaed0ca0-c000.snappy.parquet"
+			}
+		},
+		"folder": {
+			"name": "MeteoMensual"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().NombreArchivoActual",
+					"type": "Expression"
+				},
+				"folderPath": "meteo/egob/catalogo/Temporal",
+				"container": "data"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "fechaTotal",
+				"type": "DATE"
+			},
+			{
+				"name": "PROVINCIA",
+				"type": "INT_16"
+			},
+			{
+				"name": "MUNICIPIO",
+				"type": "INT_16"
+			},
+			{
+				"name": "ESTACION",
+				"type": "INT_16"
+			},
+			{
+				"name": "PUNTO_MUESTREO",
+				"type": "UTF8"
+			},
+			{
+				"name": "MAGNITUD",
+				"type": "INT_16"
+			},
+			{
+				"name": "Hora",
+				"type": "UTF8"
+			},
+			{
+				"name": "Medida",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "UTCTime",
+				"type": "INT96"
+			}
+		]
+	}
+}
