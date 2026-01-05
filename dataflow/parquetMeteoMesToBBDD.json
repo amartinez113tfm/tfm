@@ -1,0 +1,55 @@
+{
+	"name": "parquetMeteoMesToBBDD",
+	"properties": {
+		"description": "Graba el fichero parquet con las lecturas mes a una tabla de la base de datos",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ParquetMeteoMes",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "tblAireHora"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          fechaTotal as date,",
+				"          PROVINCIA as short,",
+				"          MUNICIPIO as short,",
+				"          ESTACION as short,",
+				"          PUNTO_MUESTREO as string,",
+				"          MAGNITUD as short,",
+				"          Hora as string,",
+				"          Medida as double,",
+				"          UTCTime as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> tblAireHora"
+			]
+		}
+	}
+}
