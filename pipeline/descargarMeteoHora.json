@@ -125,8 +125,6 @@
 						{
 							"name": "Data flow1",
 							"type": "ExecuteDataFlow",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Copy data1",
@@ -145,7 +143,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataflow": {
-									"referenceName": "grabaAireRT",
+									"referenceName": "grabaMeteoRT",
 									"type": "DataFlowReference"
 								},
 								"compute": {
@@ -158,8 +156,6 @@
 						{
 							"name": "parquetToBBDD",
 							"type": "ExecuteDataFlow",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Data flow1",
