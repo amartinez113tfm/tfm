@@ -1449,7 +1449,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"dataflow": {
-											"referenceName": "grabaAireRT",
+											"referenceName": "grabaMeteoRT",
 											"type": "DataFlowReference",
 											"parameters": {},
 											"datasetParameters": {
@@ -1517,7 +1517,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/grabaAireRT')]",
+				"[concat(variables('factoryId'), '/dataflows/grabaMeteoRT')]",
 				"[concat(variables('factoryId'), '/dataflows/parquetToBBDD')]"
 			]
 		},

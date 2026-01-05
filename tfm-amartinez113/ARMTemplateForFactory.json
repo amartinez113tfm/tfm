@@ -471,7 +471,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"dataflow": {
-											"referenceName": "grabaAireRT",
+											"referenceName": "grabaMeteoRT",
 											"type": "DataFlowReference",
 											"parameters": {},
 											"datasetParameters": {
@@ -542,7 +542,7 @@
 				"[concat(variables('factoryId'), '/datasets/urlCSVMeteo')]",
 				"[concat(variables('factoryId'), '/datasets/ficherosMeteo')]",
 				"[concat(variables('factoryId'), '/datasets/ficherosMeteoCSV')]",
-				"[concat(variables('factoryId'), '/dataflows/grabaAireRT')]",
+				"[concat(variables('factoryId'), '/dataflows/grabaMeteoRT')]",
 				"[concat(variables('factoryId'), '/dataflows/parquetToBBDD')]"
 			]
 		},
@@ -4202,7 +4202,7 @@
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": "totalMeteo.csv",
-						"folderPath": "meteo/egob/catalogo",
+						"folderPath": "meteo/egob/catalogo/Temporal",
 						"container": "data"
 					},
 					"columnDelimiter": ";",

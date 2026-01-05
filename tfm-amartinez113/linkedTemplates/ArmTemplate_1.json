@@ -939,7 +939,7 @@
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": "totalMeteo.csv",
-						"folderPath": "meteo/egob/catalogo",
+						"folderPath": "meteo/egob/catalogo/Temporal",
 						"container": "data"
 					},
 					"columnDelimiter": ";",
