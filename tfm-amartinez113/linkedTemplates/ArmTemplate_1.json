@@ -13,6 +13,42 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/CSVMeteoMes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "El csv donde se escriben los datos de los archivos mensuales de datos meteorologicos",
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "MeteoMensual"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "totalMeteo.csv",
+						"folderPath": "meteo/egob/catalogo/Temporal",
+						"container": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PROVINCIA;MUNICIPIO;ESTACION;MAGNITUD;PUNTO_MUESTREO;ANO;MES;DIA;H01;V01;H02;V02;H03;V03;H04;V04;H05;V05;H06;V06;H07;V07;H08;V08;H09;V09;H10;V10;H11;V11;H12;V12;H13;V13;H14;V14;H15;V15;H16;V16;H17;V17;H18;V18;H19;V19;H20;V20;H21;V21;H22;V22;H23;V23;H24;V24",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DatasetAireTiempoReal')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -257,6 +293,78 @@
 							"type": "Expression"
 						},
 						"folderPath": "meteo/egob/catalogo",
+						"container": "data"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "fechaTotal",
+						"type": "DATE"
+					},
+					{
+						"name": "PROVINCIA",
+						"type": "INT_16"
+					},
+					{
+						"name": "MUNICIPIO",
+						"type": "INT_16"
+					},
+					{
+						"name": "ESTACION",
+						"type": "INT_16"
+					},
+					{
+						"name": "PUNTO_MUESTREO",
+						"type": "UTF8"
+					},
+					{
+						"name": "MAGNITUD",
+						"type": "INT_16"
+					},
+					{
+						"name": "Hora",
+						"type": "UTF8"
+					},
+					{
+						"name": "Medida",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "UTCTime",
+						"type": "INT96"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ParquetMeteoMes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "parquetMeteo",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"NombreArchivoActual": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "MeteoMensual"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().NombreArchivoActual",
+							"type": "Expression"
+						},
+						"folderPath": "meteo/egob/catalogo/Temporal",
 						"container": "data"
 					},
 					"compressionCodec": "snappy"
@@ -1274,70 +1382,6 @@
 					},
 					{
 						"name": "V24",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/totalMeteoCSV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ficherosMeteo",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "totalMeteo.csv",
-						"folderPath": "meteo/egob/catalogo",
-						"container": "data"
-					},
-					"columnDelimiter": ";",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "PROVINCIA;MUNICIPIO;ESTACION;MAGNITUD;PUNTO_MUESTREO;ANO;MES;DIA;H01;V01;H02;V02;H03;V03;H04;V04;H05;V05;H06;V06;H07;V07;H08;V08;H09;V09;H10;V10;H11;V11;H12;V12;H13;V13;H14;V14;H15;V15;H16;V16;H17;V17;H18;V18;H19;V19;H20;V20;H21;V21;H22;V22;H23;V23;H24;V24",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/urlCSVMeteo')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "urls_meteo_hora.csv",
-						"folderPath": "meteo",
-						"container": "data"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": false,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "https://datos.madrid.es/egob/catalogo/300352-215-meteorologicos-horarios.csv",
 						"type": "String"
 					}
 				]
