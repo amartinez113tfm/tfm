@@ -13,6 +13,114 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/CSVMeteoMes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "El csv donde se escriben los datos de los archivos mensuales de datos meteorologicos",
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "MeteoMensual"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "totalMeteo.csv",
+						"folderPath": "meteo/egob/catalogo/Temporal",
+						"container": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PROVINCIA;MUNICIPIO;ESTACION;MAGNITUD;PUNTO_MUESTREO;ANO;MES;DIA;H01;V01;H02;V02;H03;V03;H04;V04;H05;V05;H06;V06;H07;V07;H08;V08;H09;V09;H10;V10;H11;V11;H12;V12;H13;V13;H14;V14;H15;V15;H16;V16;H17;V17;H18;V18;H19;V19;H20;V20;H21;V21;H22;V22;H23;V23;H24;V24",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ParquetMeteoMes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "parquetMeteo",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"NombreArchivoActual": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "MeteoMensual"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().NombreArchivoActual",
+							"type": "Expression"
+						},
+						"folderPath": "meteo/egob/catalogo/Temporal",
+						"container": "data"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "fechaTotal",
+						"type": "DATE"
+					},
+					{
+						"name": "PROVINCIA",
+						"type": "INT_16"
+					},
+					{
+						"name": "MUNICIPIO",
+						"type": "INT_16"
+					},
+					{
+						"name": "ESTACION",
+						"type": "INT_16"
+					},
+					{
+						"name": "PUNTO_MUESTREO",
+						"type": "UTF8"
+					},
+					{
+						"name": "MAGNITUD",
+						"type": "INT_16"
+					},
+					{
+						"name": "Hora",
+						"type": "UTF8"
+					},
+					{
+						"name": "Medida",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "UTCTime",
+						"type": "INT96"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/grabaAireHorario')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1085,6 +1193,266 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/grabaMeteoMes')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "meteo"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "CSVMeteoMes",
+								"type": "DatasetReference"
+							},
+							"name": "source1",
+							"description": "Importar datos de MeteoMes"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ParquetMeteoMes",
+								"type": "DatasetReference"
+							},
+							"name": "parquet"
+						}
+					],
+					"transformations": [
+						{
+							"name": "unpivot1"
+						},
+						{
+							"name": "derivedColumn1",
+							"description": "Crea una nueva columna con la fecha completa"
+						},
+						{
+							"name": "select1"
+						},
+						{
+							"name": "AddUTC",
+							"description": "Crea una columna UTC partiendo de la fecha y la hora"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          PROVINCIA as short,",
+						"          MUNICIPIO as short,",
+						"          ESTACION as short,",
+						"          MAGNITUD as short,",
+						"          PUNTO_MUESTREO as string,",
+						"          ANO as short,",
+						"          MES as short,",
+						"          DIA as short,",
+						"          H01 as double,",
+						"          V01 as string,",
+						"          H02 as double,",
+						"          V02 as string,",
+						"          H03 as double,",
+						"          V03 as string,",
+						"          H04 as double,",
+						"          V04 as string,",
+						"          H05 as double,",
+						"          V05 as string,",
+						"          H06 as double,",
+						"          V06 as string,",
+						"          H07 as double,",
+						"          V07 as string,",
+						"          H08 as double,",
+						"          V08 as string,",
+						"          H09 as double,",
+						"          V09 as string,",
+						"          H10 as double,",
+						"          V10 as string,",
+						"          H11 as double,",
+						"          V11 as string,",
+						"          H12 as double,",
+						"          V12 as string,",
+						"          H13 as double,",
+						"          V13 as string,",
+						"          H14 as double,",
+						"          V14 as string,",
+						"          H15 as double,",
+						"          V15 as string,",
+						"          H16 as double,",
+						"          V16 as string,",
+						"          H17 as double,",
+						"          V17 as string,",
+						"          H18 as double,",
+						"          V18 as string,",
+						"          H19 as double,",
+						"          V19 as string,",
+						"          H20 as double,",
+						"          V20 as string,",
+						"          H21 as double,",
+						"          V21 as string,",
+						"          H22 as double,",
+						"          V22 as string,",
+						"          H23 as double,",
+						"          V23 as string,",
+						"          H24 as double,",
+						"          V24 as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"select1 unpivot(output(",
+						"          Hora as integer,",
+						"          Medida as double",
+						"     ),",
+						"     ungroupBy(fechaTotal,",
+						"          PROVINCIA,",
+						"          MUNICIPIO,",
+						"          ESTACION,",
+						"          PUNTO_MUESTREO,",
+						"          MAGNITUD),",
+						"     lateral: false,",
+						"     ignoreNullPivots: false) ~> unpivot1",
+						"source1 derive(fechaTotal = toDate(\r",
+						"  concat(\r",
+						"    toString(ANO), '-', \r",
+						"    toString(MES), '-', \r",
+						"    toString(DIA)\r",
+						"  ), \r",
+						"  'yyyy-MM-dd'\r",
+						")) ~> derivedColumn1",
+						"derivedColumn1 select(mapColumn(",
+						"          PROVINCIA,",
+						"          MUNICIPIO,",
+						"          ESTACION,",
+						"          MAGNITUD,",
+						"          PUNTO_MUESTREO,",
+						"          {01} = H01,",
+						"          {02} = H02,",
+						"          {03} = H03,",
+						"          {04} = H04,",
+						"          {05} = H05,",
+						"          {06} = H06,",
+						"          {07} = H07,",
+						"          {08} = H08,",
+						"          {09} = H09,",
+						"          {10} = H10,",
+						"          {11} = H11,",
+						"          {12} = H12,",
+						"          {13} = H13,",
+						"          {14} = H14,",
+						"          {15} = H15,",
+						"          {16} = H16,",
+						"          {17} = H17,",
+						"          {18} = H18,",
+						"          {19} = H19,",
+						"          {20} = H20,",
+						"          {21} = H21,",
+						"          {22} = H22,",
+						"          {23} = H23,",
+						"          {24} = H24,",
+						"          fechaTotal",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"unpivot1 derive(UTCTime = toTimestamp(\r",
+						"        iif(\r",
+						"            toInteger(Hora) == 24,\r",
+						"            concat(\r",
+						"                toString(addDays(fechaTotal, 1), 'yyyy-MM-dd'),\r",
+						"                ' 00'\r",
+						"            ),\r",
+						"            concat(\r",
+						"                toString(fechaTotal, 'yyyy-MM-dd'), \r",
+						"                ' ',\r",
+						"                lpad(toString(toInteger(Hora)), 2, '0') \r",
+						"            )\r",
+						"        ),\r",
+						"        'yyyy-MM-dd HH'\r",
+						"    )) ~> AddUTC",
+						"AddUTC sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          fechaTotal as date,",
+						"          PROVINCIA as short,",
+						"          MUNICIPIO as short,",
+						"          ESTACION as short,",
+						"          PUNTO_MUESTREO as string,",
+						"          MAGNITUD as short,",
+						"          Hora as string,",
+						"          Medida as double,",
+						"          UTCTime as timestamp",
+						"     ),",
+						"     format: 'parquet',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> parquet"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/CSVMeteoMes')]",
+				"[concat(variables('factoryId'), '/datasets/ParquetMeteoMes')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/parquetMeteoMesToBBDD')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Graba el fichero parquet con las lecturas mes a una tabla de la base de datos",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ParquetMeteoMes",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference"
+							},
+							"name": "tblAireHora"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          fechaTotal as date,",
+						"          PROVINCIA as short,",
+						"          MUNICIPIO as short,",
+						"          ESTACION as short,",
+						"          PUNTO_MUESTREO as string,",
+						"          MAGNITUD as short,",
+						"          Hora as string,",
+						"          Medida as double,",
+						"          UTCTime as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> tblAireHora"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ParquetMeteoMes')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/datosAireABBDD')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1302,7 +1670,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/descargarMeteoHora')]",
+			"name": "[concat(parameters('factoryName'), '/descargarMeteoMes')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1417,14 +1785,9 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "ficherosMeteoCSV",
+											"referenceName": "CSVMeteoMes",
 											"type": "DatasetReference",
-											"parameters": {
-												"FileName": {
-													"value": "@concat(item().Prop_0,'.csv')",
-													"type": "Expression"
-												}
-											}
+											"parameters": {}
 										}
 									]
 								},
@@ -1449,13 +1812,16 @@
 									"userProperties": [],
 									"typeProperties": {
 										"dataflow": {
-											"referenceName": "grabaMeteoRT",
+											"referenceName": "grabaMeteoMes",
 											"type": "DataFlowReference",
 											"parameters": {},
 											"datasetParameters": {
 												"source1": {},
-												"parquet": {}
-											}
+												"parquet": {
+													"NombreArchivoActual": "part-00000-96e4c929-09a8-42c0-b0be-1173aaed0ca0-c000.snappy.parquet"
+												}
+											},
+											"linkedServiceParameters": {}
 										},
 										"staging": {},
 										"compute": {
@@ -1486,7 +1852,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"dataflow": {
-											"referenceName": "parquetToBBDD",
+											"referenceName": "parquetMeteoMesToBBDD",
 											"type": "DataFlowReference",
 											"parameters": {},
 											"datasetParameters": {
@@ -1517,8 +1883,9 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/grabaMeteoRT')]",
-				"[concat(variables('factoryId'), '/dataflows/parquetToBBDD')]"
+				"[concat(variables('factoryId'), '/datasets/CSVMeteoMes')]",
+				"[concat(variables('factoryId'), '/dataflows/grabaMeteoMes')]",
+				"[concat(variables('factoryId'), '/dataflows/parquetMeteoMesToBBDD')]"
 			]
 		},
 		{
@@ -4129,45 +4496,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/grabaMeteoHorario')]",
 				"[concat(variables('factoryId'), '/dataflows/parquetMeteoToBBDD')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/trigger1')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Trigger para la consulta de datos en tiempo real a las 12 de la noche de Aire Tiempo real y Meteo Real",
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "pipeAireDiario",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					},
-					{
-						"pipelineReference": {
-							"referenceName": "pipeMeteoDiario",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Hour",
-						"interval": 24,
-						"startTime": "2025-12-14T00:10:00",
-						"timeZone": "Romance Standard Time"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipeAireDiario')]",
-				"[concat(variables('factoryId'), '/pipelines/pipeMeteoDiario')]"
 			]
 		}
 	]
