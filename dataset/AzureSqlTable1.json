@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "aire_hora"
+			"table": "meteo_hora"
 		}
 	}
 }
