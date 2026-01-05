@@ -125,6 +125,8 @@
 						{
 							"name": "Data flow1",
 							"type": "ExecuteDataFlow",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Copy data1",
@@ -156,6 +158,8 @@
 						{
 							"name": "parquetToBBDD",
 							"type": "ExecuteDataFlow",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Data flow1",
