@@ -10,10 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@dataset().NombreArchivoActual",
-					"type": "Expression"
-				},
 				"folderPath": "meteo/egob/catalogo",
 				"container": "data"
 			},
