@@ -6180,8 +6180,7 @@
 						"     batchSize: 5000,",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     partitionBy('hash', 1)) ~> tblMeteoHora"
+						"     errorHandlingOption: 'stopOnFirstError') ~> tblMeteoHora"
 					]
 				}
 			},
