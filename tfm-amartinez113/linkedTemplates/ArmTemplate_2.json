@@ -1896,43 +1896,6 @@
 										},
 										"traceLevel": "Fine"
 									}
-								},
-								{
-									"name": "parquetToBBDD",
-									"type": "ExecuteDataFlow",
-									"dependsOn": [
-										{
-											"activity": "Data flow1",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"dataflow": {
-											"referenceName": "parquetMeteoMesToBBDD",
-											"type": "DataFlowReference",
-											"parameters": {},
-											"datasetParameters": {
-												"source1": {},
-												"tblMeteoHora": {}
-											}
-										},
-										"staging": {},
-										"compute": {
-											"coreCount": 8,
-											"computeType": "General"
-										},
-										"traceLevel": "Fine"
-									}
 								}
 							]
 						}
@@ -1948,8 +1911,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/urlCSVMeteo')]",
-				"[concat(variables('factoryId'), '/dataflows/grabaMeteoMes')]",
-				"[concat(variables('factoryId'), '/dataflows/parquetMeteoMesToBBDD')]"
+				"[concat(variables('factoryId'), '/dataflows/grabaMeteoMes')]"
 			]
 		},
 		{
