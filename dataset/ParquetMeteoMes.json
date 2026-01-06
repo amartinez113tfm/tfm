@@ -5,11 +5,6 @@
 			"referenceName": "parquetMeteo",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"NombreArchivoActual": {
-				"type": "string"
-			}
-		},
 		"folder": {
 			"name": "MeteoMensual"
 		},
@@ -18,10 +13,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@dataset().NombreArchivoActual",
-					"type": "Expression"
-				},
 				"folderPath": "meteo/egob/catalogo/Temporal",
 				"container": "data"
 			},
