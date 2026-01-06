@@ -174,12 +174,7 @@
 							"typeProperties": {
 								"dataflow": {
 									"referenceName": "parquetMeteoMesToBBDD",
-									"type": "DataFlowReference",
-									"datasetParameters": {
-										"source1": {
-											"NombreArchivoActual": "part-00000-4b8aadeb-3b34-40f5-a586-f9f31eb53afc-c000.snappy.parquet"
-										}
-									}
+									"type": "DataFlowReference"
 								},
 								"compute": {
 									"coreCount": 8,
