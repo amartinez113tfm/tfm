@@ -19,7 +19,7 @@
 						"referenceName": "AzureSqlTable1",
 						"type": "DatasetReference"
 					},
-					"name": "tblAireHora"
+					"name": "tblMeteoHora"
 				}
 			],
 			"transformations": [],
@@ -48,7 +48,7 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> tblAireHora"
+				"     errorHandlingOption: 'stopOnFirstError') ~> tblMeteoHora"
 			]
 		}
 	}
