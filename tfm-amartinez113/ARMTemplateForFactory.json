@@ -471,9 +471,7 @@
 											"parameters": {},
 											"datasetParameters": {
 												"source1": {},
-												"parquet": {
-													"NombreArchivoActual": "part-00000-96e4c929-09a8-42c0-b0be-1173aaed0ca0-c000.snappy.parquet"
-												}
+												"parquet": {}
 											}
 										},
 										"staging": {},
@@ -509,10 +507,8 @@
 											"type": "DataFlowReference",
 											"parameters": {},
 											"datasetParameters": {
-												"source1": {
-													"NombreArchivoActual": "part-00000-4b8aadeb-3b34-40f5-a586-f9f31eb53afc-c000.snappy.parquet"
-												},
-												"tblAireHora": {}
+												"source1": {},
+												"tblMeteoHora": {}
 											}
 										},
 										"staging": {},
@@ -3597,11 +3593,6 @@
 					"referenceName": "parquetMeteo",
 					"type": "LinkedServiceReference"
 				},
-				"parameters": {
-					"NombreArchivoActual": {
-						"type": "string"
-					}
-				},
 				"folder": {
 					"name": "MeteoMensual"
 				},
@@ -3610,10 +3601,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "@dataset().NombreArchivoActual",
-							"type": "Expression"
-						},
 						"folderPath": "meteo/egob/catalogo/Temporal",
 						"container": "data"
 					},
@@ -6162,7 +6149,7 @@
 								"referenceName": "AzureSqlTable1",
 								"type": "DatasetReference"
 							},
-							"name": "tblAireHora"
+							"name": "tblMeteoHora"
 						}
 					],
 					"transformations": [],
@@ -6191,7 +6178,7 @@
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> tblAireHora"
+						"     errorHandlingOption: 'stopOnFirstError') ~> tblMeteoHora"
 					]
 				}
 			},
