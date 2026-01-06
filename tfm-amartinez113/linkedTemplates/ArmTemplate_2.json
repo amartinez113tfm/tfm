@@ -77,6 +77,122 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/cargaBBDDMeteo')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "va a leer los parques con los datos meteorologicos y los va a grabar en la base de datos",
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ParquetSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "meteo/egob/catalogo/Temporal",
+									"wildcardFileName": "*.parquet",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "ParquetReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"maxConcurrentConnections": 1,
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ParquetMeteoMes",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "meteoHorario",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Delete1",
+						"type": "Delete",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ParquetMeteoMes",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"logStorageSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								},
+								"path": "data/meteo/egob/catalogo/Temporal"
+							},
+							"enableLogging": true,
+							"storeSettings": {
+								"type": "AzureBlobStorageReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "meteo"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/grabaAireHorario')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -3607,844 +3723,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/grabaAireHorario2025')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipe_meteo')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Copia los datos de los archivos csv de la meteorologicos para la carga inicial de datos. Estructura idéntica a la de datos de caliad de aire",
-				"activities": [
-					{
-						"name": "CopyMeteo",
-						"description": "Recorre todos los archivos que hay en la carpeta data\\meteo y copia a meteoTotal.csv",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"wildcardFolderPath": "meteo/egob/catalogo",
-									"wildcardFileName": "*.csv",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "MergeFiles"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ""
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "PROVINCIA",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "PROVINCIA",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MUNICIPIO",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "MUNICIPIO",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ESTACION",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "ESTACION",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MAGNITUD",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "MAGNITUD",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PUNTO_MUESTREO",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "PUNTO_MUESTREO",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ANO",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "ANO",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MES",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "MES",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "DIA",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "DIA",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H01",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H01",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V01",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V01",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H02",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H02",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V02",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V02",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H03",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H03",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V03",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V03",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H04",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H04",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V04",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V04",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H05",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H05",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V05",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V05",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H06",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H06",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V06",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V06",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H07",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H07",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V07",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V07",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H08",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H08",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V08",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V08",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H09",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H09",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V09",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V09",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H10",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H10",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V10",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V10",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H11",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H11",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V11",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V11",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H12",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H12",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V12",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V12",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H13",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H13",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V13",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V13",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H14",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H14",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V14",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V14",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H15",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H15",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V15",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V15",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H16",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H16",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V16",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V16",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H17",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H17",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V17",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V17",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H18",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H18",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V18",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V18",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H19",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H19",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V19",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V19",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H20",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H20",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V20",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V20",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H21",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H21",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V21",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V21",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H22",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H22",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V22",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V22",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H23",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H23",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V23",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V23",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "H24",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "H24",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "V24",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "V24",
-											"type": "String",
-											"physicalType": "String"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "totalMeteo",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "totalMeteoCSV",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "graba los datos del csv en un parquet",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "CopyMeteo",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "grabaMeteoHorario",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"parquet": {
-										"NombreArchivoActual": "part-00000-96e4c929-09a8-42c0-b0be-1173aaed0ca0-c000.snappy.parquet"
-									}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "parquetMeteoToBBDD",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "graba los datos del csv en un parquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "parquetMeteoToBBDD",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {
-										"NombreArchivoActual": "part-00000-96e4c929-09a8-42c0-b0be-1173aaed0ca0-c000.snappy.parquet"
-									},
-									"tblMeteoHora": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "meteo"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/totalMeteoCSV')]",
-				"[concat(variables('factoryId'), '/dataflows/grabaMeteoHorario')]",
-				"[concat(variables('factoryId'), '/dataflows/parquetMeteoToBBDD')]"
 			]
 		}
 	]
