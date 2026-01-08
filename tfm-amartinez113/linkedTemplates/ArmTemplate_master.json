@@ -51,6 +51,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"salidaCSV\""
 		},
+		"AzureSqlDatabaseTablaAire_password": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseTablaAire\""
+		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "amartinez113.database.windows.net"
@@ -98,6 +102,18 @@
 		"RestServiceAireRTCSV_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "amartinez113.database.windows.net"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "aire"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "amartinez113"
 		},
 		"containerUri": {
 			"type": "string",
@@ -159,6 +175,9 @@
 					"salidaCSV_connectionString": {
 						"value": "[parameters('salidaCSV_connectionString')]"
 					},
+					"AzureSqlDatabaseTablaAire_password": {
+						"value": "[parameters('AzureSqlDatabaseTablaAire_password')]"
+					},
 					"AzureSqlDatabase1_properties_typeProperties_server": {
 						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_server')]"
 					},
@@ -194,6 +213,15 @@
 					},
 					"RestServiceAireRTCSV_properties_typeProperties_url": {
 						"value": "[parameters('RestServiceAireRTCSV_properties_typeProperties_url')]"
+					},
+					"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_userName')]"
 					}
 				}
 			},

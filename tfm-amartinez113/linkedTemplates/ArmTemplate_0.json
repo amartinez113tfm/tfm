@@ -51,6 +51,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"salidaCSV\""
 		},
+		"AzureSqlDatabaseTablaAire_password": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseTablaAire\""
+		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "amartinez113.database.windows.net"
@@ -98,6 +102,18 @@
 		"RestServiceAireRTCSV_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "amartinez113.database.windows.net"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "aire"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "amartinez113"
 		}
 	},
 	"variables": {
@@ -365,6 +381,28 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseTablaAire')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('AzureSqlDatabaseTablaAire_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AireRT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -422,27 +460,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseMeteo",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "meteo_hora"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseMeteo')]"
 			]
 		}
 	]

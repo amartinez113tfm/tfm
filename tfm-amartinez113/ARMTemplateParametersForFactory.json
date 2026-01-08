@@ -38,6 +38,9 @@
 		"salidaCSV_connectionString": {
 			"value": ""
 		},
+		"AzureSqlDatabaseTablaAire_password": {
+			"value": ""
+		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"value": "amartinez113.database.windows.net"
 		},
@@ -73,6 +76,15 @@
 		},
 		"RestServiceAireRTCSV_properties_typeProperties_url": {
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+			"value": "amartinez113.database.windows.net"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
+			"value": "aire"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
+			"value": "amartinez113"
 		}
 	}
 }

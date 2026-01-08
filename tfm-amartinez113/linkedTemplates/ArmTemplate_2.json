@@ -13,6 +13,257 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/totalMeteo')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ficherosMeteo",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "meteo/egob/catalogo",
+						"container": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PROVINCIA",
+						"type": "String"
+					},
+					{
+						"name": "MUNICIPIO",
+						"type": "String"
+					},
+					{
+						"name": "ESTACION",
+						"type": "String"
+					},
+					{
+						"name": "MAGNITUD",
+						"type": "String"
+					},
+					{
+						"name": "PUNTO_MUESTREO",
+						"type": "String"
+					},
+					{
+						"name": "ANO",
+						"type": "String"
+					},
+					{
+						"name": "MES",
+						"type": "String"
+					},
+					{
+						"name": "DIA",
+						"type": "String"
+					},
+					{
+						"name": "H01",
+						"type": "String"
+					},
+					{
+						"name": "V01",
+						"type": "String"
+					},
+					{
+						"name": "H02",
+						"type": "String"
+					},
+					{
+						"name": "V02",
+						"type": "String"
+					},
+					{
+						"name": "H03",
+						"type": "String"
+					},
+					{
+						"name": "V03",
+						"type": "String"
+					},
+					{
+						"name": "H04",
+						"type": "String"
+					},
+					{
+						"name": "V04",
+						"type": "String"
+					},
+					{
+						"name": "H05",
+						"type": "String"
+					},
+					{
+						"name": "V05",
+						"type": "String"
+					},
+					{
+						"name": "H06",
+						"type": "String"
+					},
+					{
+						"name": "V06",
+						"type": "String"
+					},
+					{
+						"name": "H07",
+						"type": "String"
+					},
+					{
+						"name": "V07",
+						"type": "String"
+					},
+					{
+						"name": "H08",
+						"type": "String"
+					},
+					{
+						"name": "V08",
+						"type": "String"
+					},
+					{
+						"name": "H09",
+						"type": "String"
+					},
+					{
+						"name": "V09",
+						"type": "String"
+					},
+					{
+						"name": "H10",
+						"type": "String"
+					},
+					{
+						"name": "V10",
+						"type": "String"
+					},
+					{
+						"name": "H11",
+						"type": "String"
+					},
+					{
+						"name": "V11",
+						"type": "String"
+					},
+					{
+						"name": "H12",
+						"type": "String"
+					},
+					{
+						"name": "V12",
+						"type": "String"
+					},
+					{
+						"name": "H13",
+						"type": "String"
+					},
+					{
+						"name": "V13",
+						"type": "String"
+					},
+					{
+						"name": "H14",
+						"type": "String"
+					},
+					{
+						"name": "V14",
+						"type": "String"
+					},
+					{
+						"name": "H15",
+						"type": "String"
+					},
+					{
+						"name": "V15",
+						"type": "String"
+					},
+					{
+						"name": "H16",
+						"type": "String"
+					},
+					{
+						"name": "V16",
+						"type": "String"
+					},
+					{
+						"name": "H17",
+						"type": "String"
+					},
+					{
+						"name": "V17",
+						"type": "String"
+					},
+					{
+						"name": "H18",
+						"type": "String"
+					},
+					{
+						"name": "V18",
+						"type": "String"
+					},
+					{
+						"name": "H19",
+						"type": "String"
+					},
+					{
+						"name": "V19",
+						"type": "String"
+					},
+					{
+						"name": "H20",
+						"type": "String"
+					},
+					{
+						"name": "V20",
+						"type": "String"
+					},
+					{
+						"name": "H21",
+						"type": "String"
+					},
+					{
+						"name": "V21",
+						"type": "String"
+					},
+					{
+						"name": "H22",
+						"type": "String"
+					},
+					{
+						"name": "V22",
+						"type": "String"
+					},
+					{
+						"name": "H23",
+						"type": "String"
+					},
+					{
+						"name": "V23",
+						"type": "String"
+					},
+					{
+						"name": "H24",
+						"type": "String"
+					},
+					{
+						"name": "V24",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/totalMeteoCSV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -73,6 +324,68 @@
 						"type": "String"
 					}
 				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblAire')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseTablaAire",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "fechaTotal",
+						"type": "date"
+					},
+					{
+						"name": "PROVINCIA",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "MUNICIPIO",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ESTACION",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "PUNTO_MUESTREO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MAGNITUD",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Hora",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Medida",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "UTCTime",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "aire_hora"
+				}
 			},
 			"dependsOn": []
 		},
@@ -1924,6 +2237,8 @@
 					{
 						"name": "getAireRT",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -2345,6 +2660,8 @@
 					{
 						"name": "grabaAireRT",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "getAireRT",
@@ -2545,7 +2862,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "AzureSqlTable1",
+								"referenceName": "tblAire",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -2625,7 +2942,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/grabaAireRT')]"
+				"[concat(variables('factoryId'), '/dataflows/grabaAireRT')]",
+				"[concat(variables('factoryId'), '/datasets/tblAire')]"
 			]
 		},
 		{
@@ -3520,211 +3838,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/grabaMeteoRT')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipe_aire')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Copia los datos de los archivos csv de la calidad de aire y los transforma",
-				"activities": [
-					{
-						"name": "CopyAire",
-						"description": "Recorre todos los archivos que hay en la carpeta data\\calidadAire y copia a aiteTotal.csv",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"wildcardFolderPath": "calidadAire",
-									"wildcardFileName": "*.csv",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "MergeFiles"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": "salida.scv"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_aire",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "salida_csv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "graba los datos del csv en un parquet",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "CopyAire",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "grabaAireHorario",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"parquet": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "parquetToBBDD",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "graba los datos del csv en un parquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "parquetToBBDD",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {
-										"NombreArchivoActual": " part-00000-00ccce30-d5f8-44e9-aa0c-67f8f9992c26-c000.snappy.parquet"
-									},
-									"tblAireHora": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/grabaAireHorario')]",
-				"[concat(variables('factoryId'), '/dataflows/parquetToBBDD')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipe_aire2025')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Genera el parquet de los datos de 2025 y los graba en la base de datos",
-				"activities": [
-					{
-						"name": "grabaAireHorario2025",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "grabaAireHorario2025",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/grabaAireHorario2025')]"
 			]
 		}
 	]

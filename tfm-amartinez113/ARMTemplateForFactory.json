@@ -51,6 +51,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"salidaCSV\""
 		},
+		"AzureSqlDatabaseTablaAire_password": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseTablaAire\""
+		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "amartinez113.database.windows.net"
@@ -98,6 +102,18 @@
 		"RestServiceAireRTCSV_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "amartinez113.database.windows.net"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "aire"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "amartinez113"
 		}
 	},
 	"variables": {
@@ -631,6 +647,8 @@
 					{
 						"name": "getAireRT",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -1052,6 +1070,8 @@
 					{
 						"name": "grabaAireRT",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "getAireRT",
@@ -1252,7 +1272,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "AzureSqlTable1",
+								"referenceName": "tblAire",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1336,7 +1356,7 @@
 				"[concat(variables('factoryId'), '/datasets/AireRTCSV')]",
 				"[concat(variables('factoryId'), '/dataflows/grabaAireRT')]",
 				"[concat(variables('factoryId'), '/datasets/ParquetAireRT')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
+				"[concat(variables('factoryId'), '/datasets/tblAire')]"
 			]
 		},
 		{
@@ -5678,6 +5698,92 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/pipeMeteoDiario')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseTablaAire')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('AzureSqlDatabaseTablaAire_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblAire')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseTablaAire",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "fechaTotal",
+						"type": "date"
+					},
+					{
+						"name": "PROVINCIA",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "MUNICIPIO",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ESTACION",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "PUNTO_MUESTREO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MAGNITUD",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Hora",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Medida",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "UTCTime",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "aire_hora"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTablaAire')]"
 			]
 		}
 	]
