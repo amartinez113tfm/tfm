@@ -1,0 +1,59 @@
+{
+	"name": "tblAire",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseTablaAire",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "fechaTotal",
+				"type": "date"
+			},
+			{
+				"name": "PROVINCIA",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "MUNICIPIO",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "ESTACION",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "PUNTO_MUESTREO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MAGNITUD",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "Hora",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Medida",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "UTCTime",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "aire_hora"
+		}
+	}
+}
