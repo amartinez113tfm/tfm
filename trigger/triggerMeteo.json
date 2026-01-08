@@ -1,0 +1,33 @@
+{
+	"name": "triggerMeteo",
+	"properties": {
+		"description": "Graba en la base de datos los datos diarios de meteorología",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipeMeteoDiario",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2026-01-08T00:10:00",
+				"timeZone": "Romance Standard Time",
+				"schedule": {
+					"minutes": [
+						10
+					],
+					"hours": [
+						0
+					]
+				}
+			}
+		}
+	}
+}
