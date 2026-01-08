@@ -27,7 +27,29 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
-					},
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Hour",
+						"interval": 24,
+						"startTime": "2025-12-14T00:10:00",
+						"timeZone": "Romance Standard Time"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/triggerMeteo')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Graba en la base de datos los datos diarios de meteorología",
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
 					{
 						"pipelineReference": {
 							"referenceName": "pipeMeteoDiario",
@@ -39,10 +61,18 @@
 				"type": "ScheduleTrigger",
 				"typeProperties": {
 					"recurrence": {
-						"frequency": "Hour",
-						"interval": 24,
-						"startTime": "2025-12-14T00:10:00",
-						"timeZone": "Romance Standard Time"
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2026-01-08T00:10:00",
+						"timeZone": "Romance Standard Time",
+						"schedule": {
+							"minutes": [
+								10
+							],
+							"hours": [
+								0
+							]
+						}
 					}
 				}
 			},
