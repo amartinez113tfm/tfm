@@ -7,8 +7,6 @@
 				"name": "getMeteoRT",
 				"description": "Copia el csv con los datos diarios en tiempo real de meteorología",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -740,8 +738,6 @@
 			{
 				"name": "Data flow1",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "getMeteoRT",
@@ -774,8 +770,6 @@
 				"name": "Grabar en BBDD",
 				"description": "graba el parquet en la BBDD",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Data flow1",
