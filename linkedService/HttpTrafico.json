@@ -1,0 +1,13 @@
+{
+	"name": "HttpTrafico",
+	"properties": {
+		"description": "Conexion http descarga datos de trafico mensual",
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://datos.madrid.es",
+			"enableServerCertificateValidation": false,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
