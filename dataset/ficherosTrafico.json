@@ -1,14 +1,18 @@
 {
-	"name": "ficherosMeteo_copy1",
+	"name": "ficherosTrafico",
 	"properties": {
+		"description": "Ficheros zip de trafico mensual",
 		"linkedServiceName": {
-			"referenceName": "HttpDescargaMeteo",
+			"referenceName": "HttpTrafico",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
 			"URL_relativa": {
 				"type": "string"
 			}
+		},
+		"folder": {
+			"name": "trafico"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
@@ -21,6 +25,7 @@
 				}
 			},
 			"columnDelimiter": ";",
+			"compressionCodec": "ZipDeflate",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
