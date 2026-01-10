@@ -73,7 +73,10 @@
 										"requestMethod": "GET"
 									},
 									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
+										"type": "DelimitedTextReadSettings",
+										"compressionProperties": {
+											"type": "ZipDeflateReadSettings"
+										}
 									}
 								},
 								"sink": {
@@ -100,13 +103,10 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ficherosMeteo",
+									"referenceName": "ficherosTrafico",
 									"type": "DatasetReference",
 									"parameters": {
-										"URL_relativa": {
-											"value": "@item().Prop_0",
-											"type": "Expression"
-										}
+										"URL_relativa": "@dataset().URL_relativa"
 									}
 								}
 							],
