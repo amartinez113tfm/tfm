@@ -106,7 +106,10 @@
 									"referenceName": "ficherosTrafico",
 									"type": "DatasetReference",
 									"parameters": {
-										"URL_relativa": "@dataset().URL_relativa"
+										"URL_relativa": {
+											"value": "@item().Prop_0",
+											"type": "Expression"
+										}
 									}
 								}
 							],
