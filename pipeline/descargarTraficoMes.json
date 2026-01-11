@@ -54,7 +54,8 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Copy data1",
+							"name": "Descargar ZIP",
+							"description": "Copia de HTTP a BLob",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -67,46 +68,29 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "DelimitedTextSource",
+									"type": "BinarySource",
 									"storeSettings": {
 										"type": "HttpReadSettings",
 										"requestMethod": "GET"
 									},
 									"formatSettings": {
-										"type": "DelimitedTextReadSettings",
-										"compressionProperties": {
-											"type": "ZipDeflateReadSettings"
-										}
+										"type": "BinaryReadSettings"
 									}
 								},
 								"sink": {
-									"type": "DelimitedTextSink",
+									"type": "BinarySink",
 									"storeSettings": {
-										"type": "AzureBlobStorageWriteSettings",
-										"copyBehavior": "MergeFiles"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
+										"type": "AzureBlobStorageWriteSettings"
 									}
 								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
+								"enableStaging": false
 							},
 							"inputs": [
 								{
-									"referenceName": "ficherosTrafico",
+									"referenceName": "httpTraficoZIP",
 									"type": "DatasetReference",
 									"parameters": {
-										"URL_relativa": {
+										"URL_Dinamica": {
 											"value": "@item().Prop_0",
 											"type": "Expression"
 										}
@@ -115,7 +99,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "csvTraficoMes",
+									"referenceName": "ficherosZIP",
 									"type": "DatasetReference"
 								}
 							]
@@ -127,7 +111,7 @@
 							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
-									"activity": "Copy data1",
+									"activity": "Descargar ZIP",
 									"dependencyConditions": [
 										"Succeeded"
 									]
