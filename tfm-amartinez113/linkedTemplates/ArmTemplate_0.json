@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseMeteo\""
 		},
+		"AzureSqlDatabaseTablaAire_password": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseTablaAire\""
+		},
 		"ConexionParquetAire_connectionString": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"ConexionParquetAire\""
@@ -51,10 +55,6 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"salidaCSV\""
 		},
-		"AzureSqlDatabaseTablaAire_password": {
-			"type": "secureString",
-			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseTablaAire\""
-		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "amartinez113.database.windows.net"
@@ -76,6 +76,18 @@
 			"defaultValue": "aire"
 		},
 		"AzureSqlDatabaseMeteo_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "amartinez113"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "amartinez113.database.windows.net"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "aire"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "amartinez113"
 		},
@@ -103,17 +115,9 @@
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
 		},
-		"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+		"HttpTrafico_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "amartinez113.database.windows.net"
-		},
-		"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "aire"
-		},
-		"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "amartinez113"
+			"defaultValue": "https://datos.madrid.es"
 		}
 	},
 	"variables": {
@@ -199,6 +203,28 @@
 					"password": {
 						"type": "SecureString",
 						"value": "[parameters('AzureSqlDatabaseMeteo_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseTablaAire')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('AzureSqlDatabaseTablaAire_password')]"
 					}
 				}
 			},
@@ -381,23 +407,17 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseTablaAire')]",
+			"name": "[concat(parameters('factoryName'), '/HttpTrafico')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "Conexion http descarga datos de trafico mensual",
 				"annotations": [],
-				"type": "AzureSqlDatabase",
+				"type": "HttpServer",
 				"typeProperties": {
-					"server": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_server')]",
-					"database": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_database')]",
-					"encrypt": "mandatory",
-					"trustServerCertificate": false,
-					"authenticationType": "SQL",
-					"userName": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('AzureSqlDatabaseTablaAire_password')]"
-					}
+					"url": "[parameters('HttpTrafico_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": false,
+					"authenticationType": "Anonymous"
 				}
 			},
 			"dependsOn": []
@@ -422,41 +442,6 @@
 					}
 				},
 				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AireRTCSV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Salida en CSVpara la consulta al API de calidad de aire en tiempo real",
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "aireRT.csv",
-						"folderPath": "calidadAire",
-						"container": "data"
-					},
-					"columnDelimiter": ";",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "PROVINCIA;MUNICIPIO;ESTACION;MAGNITUD;PUNTO_MUESTREO;ANO;MES;DIA;H01;V01;H02;V02;H03;V03;H04;V04;H05;V05;H06;V06;H07;V07;H08;V08;H09;V09;H10;V10;H11;V11;H12;V12;H13;V13;H14;V14;H15;V15;H16;V16;H17;V17;H18;V18;H19;V19;H20;V20;H21;V21;H22;V22;H23;V23;H24;V24",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"

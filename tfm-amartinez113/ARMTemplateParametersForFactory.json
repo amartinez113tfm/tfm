@@ -20,6 +20,9 @@
 		"AzureSqlDatabaseMeteo_password": {
 			"value": ""
 		},
+		"AzureSqlDatabaseTablaAire_password": {
+			"value": ""
+		},
 		"ConexionParquetAire_connectionString": {
 			"value": ""
 		},
@@ -36,9 +39,6 @@
 			"value": ""
 		},
 		"salidaCSV_connectionString": {
-			"value": ""
-		},
-		"AzureSqlDatabaseTablaAire_password": {
 			"value": ""
 		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
@@ -59,6 +59,15 @@
 		"AzureSqlDatabaseMeteo_properties_typeProperties_userName": {
 			"value": "amartinez113"
 		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+			"value": "amartinez113.database.windows.net"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
+			"value": "aire"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
+			"value": "amartinez113"
+		},
 		"HttpAireRTCSV_properties_typeProperties_url": {
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=200"
 		},
@@ -77,14 +86,8 @@
 		"RestServiceAireRTCSV_properties_typeProperties_url": {
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
 		},
-		"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
-			"value": "amartinez113.database.windows.net"
-		},
-		"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
-			"value": "aire"
-		},
-		"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
-			"value": "amartinez113"
+		"HttpTrafico_properties_typeProperties_url": {
+			"value": "https://datos.madrid.es"
 		}
 	}
 }

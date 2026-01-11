@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseMeteo\""
 		},
+		"AzureSqlDatabaseTablaAire_password": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseTablaAire\""
+		},
 		"ConexionParquetAire_connectionString": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"ConexionParquetAire\""
@@ -51,10 +55,6 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"salidaCSV\""
 		},
-		"AzureSqlDatabaseTablaAire_password": {
-			"type": "secureString",
-			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseTablaAire\""
-		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "amartinez113.database.windows.net"
@@ -76,6 +76,18 @@
 			"defaultValue": "aire"
 		},
 		"AzureSqlDatabaseMeteo_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "amartinez113"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "amartinez113.database.windows.net"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "aire"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "amartinez113"
 		},
@@ -103,17 +115,9 @@
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
 		},
-		"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+		"HttpTrafico_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "amartinez113.database.windows.net"
-		},
-		"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "aire"
-		},
-		"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "amartinez113"
+			"defaultValue": "https://datos.madrid.es"
 		}
 	},
 	"variables": {
@@ -3687,6 +3691,70 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/tblAire')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseTablaAire",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "fechaTotal",
+						"type": "date"
+					},
+					{
+						"name": "PROVINCIA",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "MUNICIPIO",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ESTACION",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "PUNTO_MUESTREO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MAGNITUD",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Hora",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Medida",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "UTCTime",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "aire_hora"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTablaAire')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/totalMeteo')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -4092,6 +4160,28 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseTablaAire')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('AzureSqlDatabaseTablaAire_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ConexionParquetAire')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -4296,6 +4386,45 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/pipeAireDiario')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/triggerMeteo')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Graba en la base de datos los datos diarios de meteorología",
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pipeMeteoDiario",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2026-01-08T00:10:00",
+						"timeZone": "Romance Standard Time",
+						"schedule": {
+							"minutes": [
+								10
+							],
+							"hours": [
+								0
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pipeMeteoDiario')]"
 			]
 		},
 		{
@@ -5658,128 +5787,323 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/triggerMeteo')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
+			"name": "[concat(parameters('factoryName'), '/descargarTraficoMes')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "Graba en la base de datos los datos diarios de meteorología",
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
+				"description": "Descarga todos los datos de tráfico desde 2019",
+				"activities": [
 					{
-						"pipelineReference": {
-							"referenceName": "pipeMeteoDiario",
-							"type": "PipelineReference"
+						"name": "Leer_lista_urls",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
 						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Day",
-						"interval": 1,
-						"startTime": "2026-01-08T00:10:00",
-						"timeZone": "Romance Standard Time",
-						"schedule": {
-							"minutes": [
-								10
-							],
-							"hours": [
-								0
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"dataset": {
+								"referenceName": "urlTraficoMes",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Leer_lista_urls",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Leer_lista_urls').output.value",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "HttpReadSettings",
+												"requestMethod": "GET"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings",
+												"compressionProperties": {
+													"type": "ZipDeflateReadSettings"
+												}
+											}
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings",
+												"copyBehavior": "MergeFiles"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "ficherosTrafico",
+											"type": "DatasetReference",
+											"parameters": {
+												"URL_relativa": "@dataset().URL_relativa"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "csvTraficoMes",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								},
+								{
+									"name": "Data flow1",
+									"type": "ExecuteDataFlow",
+									"state": "Inactive",
+									"onInactiveMarkAs": "Succeeded",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataflow": {
+											"referenceName": "grabaMeteoMes",
+											"type": "DataFlowReference",
+											"parameters": {},
+											"datasetParameters": {
+												"source1": {},
+												"parquet": {}
+											}
+										},
+										"staging": {},
+										"compute": {
+											"coreCount": 8,
+											"computeType": "General"
+										},
+										"traceLevel": "Fine"
+									}
+								}
 							]
 						}
 					}
-				}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "trafico"
+				},
+				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipeMeteoDiario')]"
+				"[concat(variables('factoryId'), '/datasets/urlTraficoMes')]",
+				"[concat(variables('factoryId'), '/datasets/ficherosTrafico')]",
+				"[concat(variables('factoryId'), '/datasets/csvTraficoMes')]",
+				"[concat(variables('factoryId'), '/dataflows/grabaMeteoMes')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseTablaAire')]",
+			"name": "[concat(parameters('factoryName'), '/urlTraficoMes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "trafico"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "urlsTrafico.csv",
+						"folderPath": "trafico",
+						"container": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": false,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HttpTrafico')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "Conexion http descarga datos de trafico mensual",
 				"annotations": [],
-				"type": "AzureSqlDatabase",
+				"type": "HttpServer",
 				"typeProperties": {
-					"server": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_server')]",
-					"database": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_database')]",
-					"encrypt": "mandatory",
-					"trustServerCertificate": false,
-					"authenticationType": "SQL",
-					"userName": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('AzureSqlDatabaseTablaAire_password')]"
-					}
+					"url": "[parameters('HttpTrafico_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": false,
+					"authenticationType": "Anonymous"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tblAire')]",
+			"name": "[concat(parameters('factoryName'), '/ficherosTrafico')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Ficheros zip de trafico mensual",
+				"linkedServiceName": {
+					"referenceName": "HttpTrafico",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"URL_relativa": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "trafico"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@dataset().URL_relativa",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ";",
+					"compressionCodec": "ZipDeflate",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/HttpTrafico')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ficherosZipTrafico')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseTablaAire",
+					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "fechaTotal",
-						"type": "date"
-					},
-					{
-						"name": "PROVINCIA",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "MUNICIPIO",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "ESTACION",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "PUNTO_MUESTREO",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MAGNITUD",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "Hora",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Medida",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "UTCTime",
-						"type": "datetime2",
-						"scale": 7
-					}
-				],
+				"type": "Binary",
 				"typeProperties": {
-					"schema": "dbo",
-					"table": "aire_hora"
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "trafico/temporal",
+						"container": "data"
+					}
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTablaAire')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/csvTraficoMes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "trafico/temporal",
+						"container": "data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
 			]
 		}
 	]

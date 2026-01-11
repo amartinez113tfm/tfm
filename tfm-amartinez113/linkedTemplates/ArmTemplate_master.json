@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseMeteo\""
 		},
+		"AzureSqlDatabaseTablaAire_password": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseTablaAire\""
+		},
 		"ConexionParquetAire_connectionString": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"ConexionParquetAire\""
@@ -51,10 +55,6 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"salidaCSV\""
 		},
-		"AzureSqlDatabaseTablaAire_password": {
-			"type": "secureString",
-			"metadata": "Cadena protegida para \"password\"de \"AzureSqlDatabaseTablaAire\""
-		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "amartinez113.database.windows.net"
@@ -76,6 +76,18 @@
 			"defaultValue": "aire"
 		},
 		"AzureSqlDatabaseMeteo_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "amartinez113"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "amartinez113.database.windows.net"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "aire"
+		},
+		"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "amartinez113"
 		},
@@ -103,17 +115,9 @@
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
 		},
-		"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+		"HttpTrafico_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "amartinez113.database.windows.net"
-		},
-		"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "aire"
-		},
-		"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "amartinez113"
+			"defaultValue": "https://datos.madrid.es"
 		},
 		"containerUri": {
 			"type": "string",
@@ -157,6 +161,9 @@
 					"AzureSqlDatabaseMeteo_password": {
 						"value": "[parameters('AzureSqlDatabaseMeteo_password')]"
 					},
+					"AzureSqlDatabaseTablaAire_password": {
+						"value": "[parameters('AzureSqlDatabaseTablaAire_password')]"
+					},
 					"ConexionParquetAire_connectionString": {
 						"value": "[parameters('ConexionParquetAire_connectionString')]"
 					},
@@ -174,9 +181,6 @@
 					},
 					"salidaCSV_connectionString": {
 						"value": "[parameters('salidaCSV_connectionString')]"
-					},
-					"AzureSqlDatabaseTablaAire_password": {
-						"value": "[parameters('AzureSqlDatabaseTablaAire_password')]"
 					},
 					"AzureSqlDatabase1_properties_typeProperties_server": {
 						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_server')]"
@@ -196,6 +200,15 @@
 					"AzureSqlDatabaseMeteo_properties_typeProperties_userName": {
 						"value": "[parameters('AzureSqlDatabaseMeteo_properties_typeProperties_userName')]"
 					},
+					"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_userName')]"
+					},
 					"HttpAireRTCSV_properties_typeProperties_url": {
 						"value": "[parameters('HttpAireRTCSV_properties_typeProperties_url')]"
 					},
@@ -214,14 +227,8 @@
 					"RestServiceAireRTCSV_properties_typeProperties_url": {
 						"value": "[parameters('RestServiceAireRTCSV_properties_typeProperties_url')]"
 					},
-					"AzureSqlDatabaseTablaAire_properties_typeProperties_server": {
-						"value": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_server')]"
-					},
-					"AzureSqlDatabaseTablaAire_properties_typeProperties_database": {
-						"value": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_database')]"
-					},
-					"AzureSqlDatabaseTablaAire_properties_typeProperties_userName": {
-						"value": "[parameters('AzureSqlDatabaseTablaAire_properties_typeProperties_userName')]"
+					"HttpTrafico_properties_typeProperties_url": {
+						"value": "[parameters('HttpTrafico_properties_typeProperties_url')]"
 					}
 				}
 			},
