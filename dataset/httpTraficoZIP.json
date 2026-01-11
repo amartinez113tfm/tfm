@@ -1,0 +1,25 @@
+{
+	"name": "httpTraficoZIP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "HttpTrafico",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"URL_Dinamica": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": {
+					"value": "@dataset().URL_Dinamica",
+					"type": "Expression"
+				}
+			}
+		}
+	}
+}
