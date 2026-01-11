@@ -5845,7 +5845,8 @@
 							"isSequential": true,
 							"activities": [
 								{
-									"name": "Copy data1",
+									"name": "Descargar ZIP",
+									"description": "Copia de HTTP a BLob",
 									"type": "Copy",
 									"dependsOn": [],
 									"policy": {
@@ -5858,46 +5859,29 @@
 									"userProperties": [],
 									"typeProperties": {
 										"source": {
-											"type": "DelimitedTextSource",
+											"type": "BinarySource",
 											"storeSettings": {
 												"type": "HttpReadSettings",
 												"requestMethod": "GET"
 											},
 											"formatSettings": {
-												"type": "DelimitedTextReadSettings",
-												"compressionProperties": {
-													"type": "ZipDeflateReadSettings"
-												}
+												"type": "BinaryReadSettings"
 											}
 										},
 										"sink": {
-											"type": "DelimitedTextSink",
+											"type": "BinarySink",
 											"storeSettings": {
-												"type": "AzureBlobStorageWriteSettings",
-												"copyBehavior": "MergeFiles"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextWriteSettings",
-												"quoteAllText": true,
-												"fileExtension": ".txt"
+												"type": "AzureBlobStorageWriteSettings"
 											}
 										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
+										"enableStaging": false
 									},
 									"inputs": [
 										{
-											"referenceName": "ficherosTrafico",
+											"referenceName": "httpTraficoZIP",
 											"type": "DatasetReference",
 											"parameters": {
-												"URL_relativa": {
+												"URL_Dinamica": {
 													"value": "@item().Prop_0",
 													"type": "Expression"
 												}
@@ -5906,7 +5890,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "csvTraficoMes",
+											"referenceName": "ficherosZIP",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
@@ -5919,7 +5903,7 @@
 									"onInactiveMarkAs": "Succeeded",
 									"dependsOn": [
 										{
-											"activity": "Copy data1",
+											"activity": "Descargar ZIP",
 											"dependencyConditions": [
 												"Succeeded"
 											]
@@ -5965,8 +5949,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/urlTraficoMes')]",
-				"[concat(variables('factoryId'), '/datasets/ficherosTrafico')]",
-				"[concat(variables('factoryId'), '/datasets/csvTraficoMes')]",
+				"[concat(variables('factoryId'), '/datasets/httpTraficoZIP')]",
+				"[concat(variables('factoryId'), '/datasets/ficherosZIP')]",
 				"[concat(variables('factoryId'), '/dataflows/grabaMeteoMes')]"
 			]
 		},
@@ -6019,46 +6003,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ficherosTrafico')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Ficheros zip de trafico mensual",
-				"linkedServiceName": {
-					"referenceName": "HttpTrafico",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"URL_relativa": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "trafico"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "HttpServerLocation",
-						"relativeUrl": {
-							"value": "@dataset().URL_relativa",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ";",
-					"compressionCodec": "ZipDeflate",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/HttpTrafico')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/ficherosZipTrafico')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -6082,7 +6026,37 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/csvTraficoMes')]",
+			"name": "[concat(parameters('factoryName'), '/httpTraficoZIP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "HttpTrafico",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"URL_Dinamica": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@dataset().URL_Dinamica",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/HttpTrafico')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ficherosZIP')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -6091,19 +6065,14 @@
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
+				"type": "Binary",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"folderPath": "trafico/temporal",
 						"container": "data"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
+					}
+				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
