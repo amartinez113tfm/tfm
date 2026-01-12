@@ -105,10 +105,9 @@
 							]
 						},
 						{
-							"name": "Data flow1",
-							"type": "ExecuteDataFlow",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
+							"name": "Descomprimir ZIP",
+							"description": "Descomprime los ZIP anteriores",
+							"type": "Copy",
 							"dependsOn": [
 								{
 									"activity": "Descargar ZIP",
@@ -126,16 +125,24 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"dataflow": {
-									"referenceName": "grabaMeteoMes",
-									"type": "DataFlowReference"
+								"source": {
+									"type": "BinarySource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true
+									},
+									"formatSettings": {
+										"type": "BinaryReadSettings"
+									}
 								},
-								"compute": {
-									"coreCount": 8,
-									"computeType": "General"
-								},
-								"traceLevel": "Fine"
-							}
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "ficherosZIP",
+									"type": "DatasetReference"
+								}
+							]
 						}
 					]
 				}
