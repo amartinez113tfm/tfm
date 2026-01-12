@@ -77,6 +77,9 @@
 		"HttpMeteoCSV_properties_typeProperties_url": {
 			"value": "https://datos.madrid.es/egob/catalogo/300392-11041819-meteorologia-tiempo-real.csv"
 		},
+		"HttpTrafico_properties_typeProperties_url": {
+			"value": "https://datos.madrid.es"
+		},
 		"RestAireRT_properties_typeProperties_url": {
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
 		},
@@ -85,9 +88,6 @@
 		},
 		"RestServiceAireRTCSV_properties_typeProperties_url": {
 			"value": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
-		},
-		"HttpTrafico_properties_typeProperties_url": {
-			"value": "https://datos.madrid.es"
 		},
 		"containerUri": {
 			"value": ""

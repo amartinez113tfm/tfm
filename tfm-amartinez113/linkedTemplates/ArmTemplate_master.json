@@ -103,6 +103,10 @@
 			"type": "string",
 			"defaultValue": "https://datos.madrid.es/egob/catalogo/300392-11041819-meteorologia-tiempo-real.csv"
 		},
+		"HttpTrafico_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datos.madrid.es"
+		},
 		"RestAireRT_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
@@ -114,10 +118,6 @@
 		"RestServiceAireRTCSV_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/"
-		},
-		"HttpTrafico_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://datos.madrid.es"
 		},
 		"containerUri": {
 			"type": "string",
@@ -218,6 +218,9 @@
 					"HttpMeteoCSV_properties_typeProperties_url": {
 						"value": "[parameters('HttpMeteoCSV_properties_typeProperties_url')]"
 					},
+					"HttpTrafico_properties_typeProperties_url": {
+						"value": "[parameters('HttpTrafico_properties_typeProperties_url')]"
+					},
 					"RestAireRT_properties_typeProperties_url": {
 						"value": "[parameters('RestAireRT_properties_typeProperties_url')]"
 					},
@@ -226,9 +229,6 @@
 					},
 					"RestServiceAireRTCSV_properties_typeProperties_url": {
 						"value": "[parameters('RestServiceAireRTCSV_properties_typeProperties_url')]"
-					},
-					"HttpTrafico_properties_typeProperties_url": {
-						"value": "[parameters('HttpTrafico_properties_typeProperties_url')]"
 					}
 				}
 			},
